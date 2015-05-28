@@ -35,5 +35,3 @@ while(<$exec_log>)
 close($exec_log);
 
 print @exec_log;
-
-unlink "$path/exec_log.log";
