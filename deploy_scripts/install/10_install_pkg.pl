@@ -61,7 +61,7 @@ if ($pm eq "apt-get")
     #install package quiet
     if($text_diff eq "No")
     {
-        $tools->logprint("10_install_pkg","sudo apt-get -y install libtext-diff-perl");
+        $tools->logprint("10_install_pkg","sudo apt-get -y install libtext-diff-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libtext-diff-perl`; 
     }
 
@@ -72,7 +72,7 @@ if ($pm eq "apt-get")
     #install package quiet
     if($logic_tools eq "No")
     {
-        $tools->logprint("10_install_pkg","sudo apt-get -y install liblogic-tools-perl");
+        $tools->logprint("10_install_pkg","sudo apt-get -y install liblogic-tools-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install liblogic-tools-perl`; 
     }
 
@@ -83,7 +83,7 @@ if ($pm eq "apt-get")
     #install package quiet
     if($config_inifiles eq "No")
     {
-        $tools->logprint("10_install_pkg","sudo apt-get -y install libconfig-inifiles-perl");
+        $tools->logprint("10_install_pkg","sudo apt-get -y install libconfig-inifiles-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libconfig-inifiles-perl`; 
     }
 }
