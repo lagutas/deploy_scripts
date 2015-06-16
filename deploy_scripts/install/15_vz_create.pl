@@ -35,7 +35,7 @@ $tools->logprint("15_vz_create","$ctid_ret != $ctid");
 if($ctid_ret != $ctid)
 {
     $tools->logprint("15_vz_create","vz $ctid not created, create id");
-    my $vz_create="vzctl create $ctid --ostemplate debian-8.0-x86_64-itlogic --layout simfs";
+    my $vz_create="vzctl create $ctid --ostemplate debian-8.0-x86_64-itlogic --layout ploop";
     $tools->logprint("15_vz_create","$vz_create 1>/dev/null 2> $path/15_vz_create.log");
     `$vz_create 1>/dev/null 2> $path/15_vz_create.log`;
     open(my $vz_log,"<","$path/15_vz_create.log");
