@@ -34,4 +34,3 @@ while(<$exec_log>)
 
 close($exec_log);
 
-print @exec_log;
