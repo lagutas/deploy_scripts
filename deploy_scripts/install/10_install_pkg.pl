@@ -86,4 +86,15 @@ if ($pm eq "apt-get")
         $tools->logprint("10_install_pkg","sudo apt-get -y install libconfig-inifiles-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libconfig-inifiles-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
     }
+
+    #check Config::IniFiles
+    eval { require DBI };
+    my $dbi= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($dbi eq "No")
+    {
+        $tools->logprint("10_install_pkg","sudo apt-get -y install libdbi-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install libdbi-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    }
 }
