@@ -31,7 +31,7 @@ if (! -d $dst_path)
 #get diff between config files
 unless ( -e "$dst_file" ) 
 {
-	$tools->logprint("20_install_projects","$dst_file not exist, copy new file");
+	$tools->logprint("info","$dst_file not exist, copy new file");
     copy $src_file,$dst_file or print "ERROR copying file $src_file -> $dst_file";
 }
 
@@ -44,6 +44,6 @@ if($diff ne undef)
 {
     unlink($dst_file);
     copy $src_file,$dst_file or print "ERROR copying file $src_file -> $dst_file";
-    $tools->logprint("20_install_projects","update $dst_file");
+    $tools->logprint("info","update $dst_file");
 }
 

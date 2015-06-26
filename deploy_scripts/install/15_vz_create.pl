@@ -20,7 +20,7 @@ my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.l
                             logsize         =>      '1Mb',
                             log_num         =>      4);
 
-$tools->logprint("15_vz_create","check vz $ctid");
+$tools->logprint("info","check vz $ctid");
 my @vz_list=split("\n",`vzlist $ctid 2>/dev/null`);
 my $ctid_ret=0;
 if (defined($vz_list[1]))
@@ -29,14 +29,14 @@ if (defined($vz_list[1]))
     $ctid_ret=~s/^\s+(\d+)\s.+/$1/;
 }
 
-$tools->logprint("15_vz_create","$ctid_ret != $ctid");
+$tools->logprint("info","$ctid_ret != $ctid");
 
 
 if($ctid_ret != $ctid)
 {
-    $tools->logprint("15_vz_create","vz $ctid not created, create id");
+    $tools->logprint("info","vz $ctid not created, create id");
     my $vz_create="vzctl create $ctid --ostemplate debian-8.0-x86_64-itlogic --layout ploop";
-    $tools->logprint("15_vz_create","$vz_create 1>/dev/null 2> $path/15_vz_create.log");
+    $tools->logprint("info","$vz_create 1>/dev/null 2> $path/15_vz_create.log");
     `$vz_create 1>/dev/null 2> $path/15_vz_create.log`;
     open(my $vz_log,"<","$path/15_vz_create.log");
     while (<$vz_log>) 
@@ -44,14 +44,14 @@ if($ctid_ret != $ctid)
         chomp;
         if($_=~/failed/)
         {
-            $tools->logprint("15_vz_create","$_");
+            $tools->logprint("info","$_");
         }
     }
     close $vz_log;
 }
 else
 {
-    $tools->logprint("15_vz_create","vz $ctid extis");
+    $tools->logprint("info","vz $ctid extis");
 }
 
 unlink "$path/15_vz_create.log";

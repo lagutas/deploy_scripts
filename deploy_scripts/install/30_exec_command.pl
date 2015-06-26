@@ -16,7 +16,7 @@ my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.l
 
 my $exec_command=$command." 1>/dev/null 2>$path/exec_log.log";
 
-$tools->logprint("30_exec_command","exec $exec_command");
+$tools->logprint("info","exec $exec_command");
 
 eval 
 {

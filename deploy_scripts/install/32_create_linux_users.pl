@@ -57,7 +57,7 @@ $dbh->{mysql_auto_reconnect} = 1;
 
 chomp(my $hostname=`sudo hostname`);
 
-$tools->logprint("32_create_linux_users","hostname - $hostname");
+$tools->logprint("info","hostname - $hostname");
 
 my $sth=$dbh->prepare($query{'get_linux_users'});
 
@@ -65,18 +65,18 @@ $sth->execute($hostname) or die "Error: query $query{'get_linux_users'} failed: 
 
 while (my $user_ref=$sth->fetchrow_hashref())
 {
-    $tools->logprint("32_create_linux_users","create user for hostname - $hostname, login - $user_ref->{'login'}, secret - $user_ref->{'secret'}, sudo_rules - $user_ref->{'rules'}");
+    $tools->logprint("info","create user for hostname - $hostname, login - $user_ref->{'login'}, secret - $user_ref->{'secret'}, sudo_rules - $user_ref->{'rules'}");
     my $result=`useradd -m -s /bin/bash -p $user_ref->{'secret'} $user_ref->{'login'} 1>/dev/null 2>/dev/null; echo "1"`;
     if($result==1)
     {
-        $tools->logprint("32_create_linux_users","user $user_ref->{'login'} was created");
+        $tools->logprint("info","user $user_ref->{'login'} was created");
         my $change_password=`echo "$user_ref->{'login'}:$user_ref->{'secret'}" | chpasswd; echo "1"`;
         if($change_password==1)
         {
-            $tools->logprint("32_create_linux_users","password for user $user_ref->{'login'} was changed");
+            $tools->logprint("info","password for user $user_ref->{'login'} was changed");
             my $sudo_rules=$user_ref->{'rules'};
             $sudo_rules=~s/(\%USERNAME\%)(.+)/$user_ref->{'login'}$2/;
-            $tools->logprint("32_create_linux_users","sudo_rules - $sudo_rules");
+            $tools->logprint("info","sudo_rules - $sudo_rules");
             open(my $sudo_file,">","$user_ref->{'login'}");
             print $sudo_file $sudo_rules."\n";
             close($sudo_file);
@@ -109,7 +109,7 @@ foreach(split("\n"),`sudo cat /etc/passwd`)
             my $result=`sudo userdel $user; echo "1"`;
             if($result==1)
             {
-                $tools->logprint("32_create_linux_users","user $user has been deleted");
+                $tools->logprint("info","user $user has been deleted");
             }
         }
 
