@@ -97,4 +97,15 @@ if ($pm eq "apt-get")
         $tools->logprint("info","sudo apt-get -y install libdbi-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libdbi-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
     }
+
+    #check Test::Strict
+    eval { require Test::Strict };
+    my $test_strict= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($test_strict eq "No")
+    {
+        $tools->logprint("info","sudo apt-get -y install libtest-strict-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install libtest-strict-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    }
 }
