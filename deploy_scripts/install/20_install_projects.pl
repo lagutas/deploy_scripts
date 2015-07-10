@@ -13,6 +13,8 @@ my $src_file = shift;
 my $dst_file = shift;
 my $path = shift;
 
+my $result;
+
 my $my_dir = getcwd;
 my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log',
                             logsize         =>      '1Mb',
@@ -33,6 +35,7 @@ unless ( -e "$dst_file" )
 {
 	$tools->logprint("info","$dst_file not exist, copy new file");
     copy $src_file,$dst_file or print "ERROR copying file $src_file -> $dst_file";
+    $result=1;
 }
 
 
@@ -45,5 +48,8 @@ if($diff ne undef)
     unlink($dst_file);
     copy $src_file,$dst_file or print "ERROR copying file $src_file -> $dst_file";
     $tools->logprint("info","update $dst_file");
+    $result=1;
 }
 
+
+return $result;
