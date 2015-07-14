@@ -108,4 +108,39 @@ if ($pm eq "apt-get")
         $tools->logprint("info","sudo apt-get -y install libtest-strict-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libtest-strict-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
     }
+
+    #check Test::Fixme
+    eval { require Test::Fixme };
+    my $test_fixme= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($test_fixme eq "No")
+    {
+        $tools->logprint("info","sudo apt-get -y install libtest-fixme-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install libtest-fixme-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    }
+
+    #check Test::Perl::Critic
+    eval { require Test::Perl::Critic };
+    my $test_perl_critic= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($test_perl_critic eq "No")
+    {
+        $tools->logprint("info","sudo apt-get -y install libtest-perl-critic-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install libtest-perl-critic-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    }
+
+    #check Test::Kwalitee
+    eval { require Test::Kwalitee };
+    my $test_kwalitee= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($test_kwalitee eq "No")
+    {
+        $tools->logprint("info","sudo apt-get -y install libtest-kwalitee-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install libtest-kwalitee-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    }
+   
+    
 }
