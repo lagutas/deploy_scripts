@@ -83,7 +83,7 @@ foreach(@test_num)
                                 ' -emails '.$emails.
                                 ' -theme '.'"project has many error: '.$error_count.'"'.
                                 ' -message "'.join("\n",@message).'"'.
-                                ' -path '.$path);
+                                ' -path '.$path;
         $tools->logprint("info","unit test [$script_name]: send mail $command");
         `$command`;
         print -1;
