@@ -10,7 +10,7 @@ my $my_dir = getcwd;
 
 
 
-my ($path,$script_name,$src_script_dir,$dst_script_dir,$script_cfg_name,$src_script_cfg_dir,$dst_script_cfg_dir,$test_dir,$emails);
+my ($path,$script_name,$src_script_dir,$dst_script_dir,$script_cfg_name,$src_script_cfg_dir,$dst_script_cfg_dir,$test_dir,$emails,$test_only);
 
 GetOptions( "path=s"                => \$path, 
             "script_name=s"         => \$script_name,
@@ -20,7 +20,8 @@ GetOptions( "path=s"                => \$path,
             "src_script_cfg_dir=s"  => \$src_script_cfg_dir,
             "dst_script_cfg_dir=s"  => \$dst_script_cfg_dir,
             "test_dir=s"            => \$test_dir,
-            "emails=s"              => \$emails);
+            "emails=s"              => \$emails,
+            "test_only=s"           => \$test_only);
 
 
 my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
@@ -91,54 +92,58 @@ foreach(@test_num)
     }
 }
 
-my $command=$path.'/install/20_install_projects.pl '.$src_script_cfg_dir.'/'.$script_cfg_name.' '.$dst_script_cfg_dir.'/'.$script_cfg_name.' '.$path;
-$tools->logprint("info","unit test [$script_name]: install cfg $command");
-my $cfg_install=`$command`; 
-if($cfg_install<0) 
-{ 
-    $tools->logprint("error","unit test [$script_name]: error install cfg file");
-    my $command=$path.'/install/mail_send.pl'.
-                                ' -emails '.$emails.
-                                ' -theme '.'"error install cfg file"'.
-                                ' -path '.$path;
-    $tools->logprint("info","unit test [$script_name]: send mail $command");
-    `$command`;
-    print -1;
-    exit;
-}
-
-my $command=$path.'/install/20_install_projects.pl '.$src_script_dir.'/script/'.$script_name.' '.$dst_script_dir.'/'.$script_name.' '.$path;
-$tools->logprint("info","unit test [$script_name]: install $command");
-my $script_install=`$command`; 
-if($script_install<0) 
-{ 
-    $tools->logprint("error","unit test [$script_name]: error install script");
-    my $command=$path.'/install/mail_send.pl'.
-                                ' -emails '.$emails.
-                                ' -theme '.'"error install script"'.
-                                ' -path '.$path;
-    $tools->logprint("info","unit test [$script_name]: send mail $command");
-    `$command`;
-    print -1;
-    exit;
-}
-
-my $command='sudo chmod +x '.$dst_script_dir.'/'.$script_name;
-my $chmod=`$command`; if($chmod ne undef) 
+if($test_only!=1)
 {
-    $tools->logprint("error","unit test [$script_name]: $chmod");
-    print -1;
-    exit;
-}
+    my $command=$path.'/install/20_install_projects.pl '.$src_script_cfg_dir.'/'.$script_cfg_name.' '.$dst_script_cfg_dir.'/'.$script_cfg_name.' '.$path;
+    $tools->logprint("info","unit test [$script_name]: install cfg $command");
+    my $cfg_install=`$command`; 
+    if($cfg_install<0) 
+    { 
+        $tools->logprint("error","unit test [$script_name]: error install cfg file");
+        my $command=$path.'/install/mail_send.pl'.
+                                    ' -emails '.$emails.
+                                    ' -theme '.'"error install cfg file"'.
+                                    ' -path '.$path;
+        $tools->logprint("info","unit test [$script_name]: send mail $command");
+        `$command`;
+        print -1;
+        exit;
+    }
+
+    my $command=$path.'/install/20_install_projects.pl '.$src_script_dir.'/script/'.$script_name.' '.$dst_script_dir.'/'.$script_name.' '.$path;
+    $tools->logprint("info","unit test [$script_name]: install $command");
+    my $script_install=`$command`; 
+    if($script_install<0) 
+    { 
+        $tools->logprint("error","unit test [$script_name]: error install script");
+        my $command=$path.'/install/mail_send.pl'.
+                                    ' -emails '.$emails.
+                                    ' -theme '.'"error install script"'.
+                                    ' -path '.$path;
+        $tools->logprint("info","unit test [$script_name]: send mail $command");
+        `$command`;
+        print -1;
+        exit;
+    }
+
+    my $command='sudo chmod +x '.$dst_script_dir.'/'.$script_name;
+    my $chmod=`$command`; if($chmod ne undef) 
+    {
+        $tools->logprint("error","unit test [$script_name]: $chmod");
+        print -1;
+        exit;
+    }
 
 
-if($cfg_install>0||$script_install>0)
-{
-    $tools->logprint("info","unit test [$script_name]: need script restart");
-    print 1;
+    if($cfg_install>0||$script_install>0)
+    {
+        $tools->logprint("info","unit test [$script_name]: need script restart");
+        print 1;
+    }
+    else
+    {
+        $tools->logprint("info","unit test [$script_name]: not need script restart");
+        print 0;
+    }
 }
-else
-{
-    $tools->logprint("info","unit test [$script_name]: not need script restart");
-    print 0;
-}
+
