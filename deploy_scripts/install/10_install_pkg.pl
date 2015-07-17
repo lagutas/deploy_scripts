@@ -54,6 +54,9 @@ if ($pm eq "apt-get")
     $tools->logprint("info","apt-get -y -qq update");
     `apt-get -y -qq update`;
 
+    #install mysql-client
+    `sudo aptitude install mysql-client 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`;
+
     #check Text::Diff package in the current os
     eval { require Text::Diff };
     my $text_diff= $@ ? 'No' : 'Yes';
