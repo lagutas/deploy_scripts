@@ -4,6 +4,7 @@ use strict;
 
 use Logic::Tools;
 use Getopt::Long;
+use File::stat;
 use Cwd;
 
 my ($path,$kamailio_path,$emails);
@@ -13,7 +14,12 @@ GetOptions( "path=s"            => \$path,
             "emails=s"          => \$emails);
 
 
-use File::stat;
+my $my_dir = getcwd;
+my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+
+
+$tools->logprint("info","kamailio reload");
+
 
 
 #start kamailio if not started
@@ -53,6 +59,8 @@ if(!defined($need_restart))
                                 ' -emails '.$emails.
                                 ' -theme '.'"[kamailio deploy] kamailio config oldest by kamailio uptime, restart not need"'.
                                 ' -path '.$path;
+    $tools->logprint("info","exec $command");
+    `$command`;
     exit;
 }
 else
@@ -91,6 +99,8 @@ else
                                 ' -emails '.$emails.
                                 ' -theme '.'"[kamailio deploy]: kamailio not be restarting"'.
                                 ' -path '.$path;
+        $tools->logprint("info","exec $command");
+        `$command`;
         print "ERROR ! kamailio not be restarting";
         exit;
     }
@@ -99,6 +109,8 @@ else
                                 ' -emails '.$emails.
                                 ' -theme '.'"[kamailio deploy]: new configuration was deployed"'.
                                 ' -path '.$path;
+    $tools->logprint("info","exec $command");
+    `$command`;
 }
 
 sub get_kamailio_uptime
