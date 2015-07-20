@@ -18,7 +18,7 @@ my $my_dir = getcwd;
 my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
 
 
-$tools->logprint("info","kamailio reload");
+$tools->logprint("info","kamailio reload path - $path, kamailio_path - $kamailio_path, emails - $emails");
 
 
 
