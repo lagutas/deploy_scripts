@@ -44,36 +44,36 @@ unless( -e "/proc/$pid" )
 }
 
 my $ctl_error;
-unless( -e "/var/run/kamailio/kamailio_ctl" )
+unless( -e "/tmp/kamailio_ctl" )
 {
     my $command=$path.'/install/mail_send.pl'.
                                 ' -emails '.$emails.
                                 ' -theme '.'"[kamailio deploy]: test after reboot"'.
                                 ' -path '.$path.
-                                ' -message '.'"/var/run/kamailio/kamailio_ctl not exist"';
+                                ' -message '.'"/tmp/kamailio_ctl not exist"';
     $tools->logprint("info","exec $command");
     `$command`;
     if($ctl_error!=2)
     {
         $ctl_error=1;
-        print "error: /var/run/kamailio/kamailio_ctl not exist\n";    
+        print "error: /tmp/kamailio_ctl not exist\n";    
     }
 }
 
 my $fifo_error;
-unless( -e "/var/run/kamailio/kamailio_fifo" )
+unless( -e "/tmp/kamailio_fifo" )
 {
     my $command=$path.'/install/mail_send.pl'.
                                 ' -emails '.$emails.
                                 ' -theme '.'"[kamailio deploy]: test after reboot"'.
                                 ' -path '.$path.
-                                ' -message '.'"/var/run/kamailio/kamailio_fifo not exist"';
+                                ' -message '.'"/tmp/kamailio_fifo not exist"';
     $tools->logprint("info","exec $command");
     `$command`;
     if($fifo_error!=2)
     {
         $fifo_error=1;
-        print "error: /var/run/kamailio/kamailio_fifo not exist\n";
+        print "error: /tmp/kamailio_fifo not exist\n";
     }
 }
 
