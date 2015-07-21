@@ -1,8 +1,11 @@
 #!/usr/bin/perl
 
+use Getopt::Long;
 use strict;
 
-my $emails=shift;
+my ($path,$emails);
+GetOptions( "path=s"            => \$path,
+            "emails=s"          => \$emails);
 
 
 my $kamailio_pid_file;
