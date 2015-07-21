@@ -1,11 +1,16 @@
 #!/usr/bin/perl
 
 use Getopt::Long;
+use Logic::Tools;
+use Cwd;
 use strict;
 
 my ($path,$emails);
 GetOptions( "path=s"            => \$path,
             "emails=s"          => \$emails);
+
+my $my_dir = getcwd;
+my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
 
 
 my $kamailio_pid_file;
