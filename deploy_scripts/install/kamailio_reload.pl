@@ -27,7 +27,9 @@ $tools->logprint("info","kamailio reload path - $path, kamailio_path - $kamailio
 
 my $command='sudo netstat -anlp | grep :5060 | wc -l';
 $tools->logprint("info","kamailio run ? ($command)");
-if(chomp(`$command`)==0)
+my $num_of_kam_process=`$command`;
+chomp($num_of_kam_process);
+if($num_of_kam_process==0)
 {
     my $command='sudo /etc/init.d/kamailio start';
     $tools->logprint("info","start kamailio ($command)");
