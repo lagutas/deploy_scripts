@@ -31,7 +31,7 @@ my $num_of_kam_process=`$command`;
 chomp($num_of_kam_process);
 if($num_of_kam_process==0)
 {
-    my $command='sudo /etc/init.d/kamailio start';
+    my $command='sudo /etc/init.d/kamailio start 1>/dev/null 2>/dev/null';
     $tools->logprint("info","start kamailio ($command)");
     `$command`;
 }
