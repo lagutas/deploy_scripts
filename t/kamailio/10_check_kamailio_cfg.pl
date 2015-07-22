@@ -89,8 +89,8 @@ foreach(split("\n",$kamailio_ps))
 $kamailio_start_command=~s/.+\d+\s(\/.+)/$1/;
 
 unlink("$kamailio_path/kamailio_test.cfg");
-unlink("/var/run/kamailio/kamailio_ctl_test");
-unlink("/var/run/kamailio/kamailio_fifo_test");
+unlink("/tmp/kamailio_ctl_test");
+unlink("/tmp/kamailio_fifo_test");
 
 my $pid;
 eval
