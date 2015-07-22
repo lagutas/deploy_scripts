@@ -20,7 +20,9 @@ my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
 $tools->logprint("info","kamailio test path - $path, kamailio_path - $kamailio_path, emails - $emails");
 
 #1 - test simple config for sintax -------------------------------------------------------------------
+$tools->logprint("info","run: kamailio -f $kamailio_path/kamailio.cfg -c 1>/dev/null 2>check_log");
 `kamailio -f $kamailio_path/kamailio.cfg -c 1>/dev/null 2>check_log`;
+
 
 open(my $check_log,"<","check_log");
 
@@ -84,7 +86,6 @@ foreach(split("\n",$kamailio_ps))
     }
 }
 
-# 7271 ?        S      0:00 (/usr/sbin/kamailio -P /var/run/kamailio.pid -m 256 -M 32 -u kamailio -g kamailio)
 $kamailio_start_command=~s/.+\d+\s(\/.+)/$1/;
 
 unlink("$kamailio_path/kamailio_test.cfg");
@@ -130,6 +131,7 @@ eval
             $kamailio_start_command="/usr/sbin/kamailio -P /var/run/kamailio.pid -m 256 -M 32 -u kamailio -g kamailio -f ".$kamailio_path."/kamailio_test.cfg -D -E 1>>check_log 2>>check_log";
         }
         #print STDERR "$kamailio_start_command"."\n";
+        $tools->logprint("info","run: $kamailio_start_command");
         my $kamailio_test=`$kamailio_start_command`;
         print STDERR $kamailio_test if defined($kamailio_test);
     }
