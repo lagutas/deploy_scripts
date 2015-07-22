@@ -23,7 +23,24 @@ $tools->logprint("info","kamailio reload path - $path, kamailio_path - $kamailio
 
 
 #start kamailio if not started
-`var=\$(sudo netstat -anlp | grep :5060 | wc -l); if [ \$var -ne 1 ]; then sudo /etc/init.d/kamailio start 1>/dev/null 2>/dev/null; fi`;
+#`var=\$(sudo netstat -anlp | grep :5060 | wc -l); if [ \$var -ne 1 ]; then sudo /etc/init.d/kamailio start 1>/dev/null 2>/dev/null; fi`;
+
+my $command='sudo netstat -anlp | grep :5060 | wc -l';
+$tools->logprint("info","kamailio run ? ($command)");
+if(chomp(`$command`)==0)
+{
+    my $command='sudo /etc/init.d/kamailio start';
+    $tools->logprint("info","start kamailio ($command)");
+    `$command`;
+}
+else
+{
+    $tools->logprint("info","kamailio already started");
+}
+
+
+
+
 
 my $uptime_before=get_kamailio_uptime();
 
@@ -71,8 +88,8 @@ else
 
     sleep(5);
 
-    unlink("/var/run/kamailio/kamailio_fifo");
-    unlink("/var/run/kamailio/kamailio_ctl");
+    unlink("/tmp/kamailio_fifo");
+    unlink("/tmp/kamailio_ctl");
 
 
 
