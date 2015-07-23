@@ -25,11 +25,12 @@ $tools->logprint("info","20_install_project $src_file -> $dst_file");
 $dst_path=~s/^(.+)\/.+$/$1/;
 
 if (! -d $dst_path)
-{  my $dirs = eval { mkpath($dst_path) };
-
+{  
+  $tools->logprint("info","dir not created, create it");
+  my $dirs = eval { mkpath($dst_path) };
   if($dirs ne undef)
   {
-    $tools->logprint("error","Failed to create $dst_path: $@\n");
+    $tools->logprint("info","Failed to create $dst_path: $@\n");
     print -1;
   }
 }
