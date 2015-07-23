@@ -100,7 +100,7 @@ if(defined($specific_test_dir))
 {
     $tools->logprint("info","unit test [$script_name]: run script specific tests");
 
-    opendir(my $test_dir_hdl,$specific_test_dir) || $tools -> logprint("error","unit test [$script_name]:не удалось открыть каталог $specific_test_dir");
+    opendir(my $specific_test_dir_hdl,$specific_test_dir) || $tools -> logprint("error","unit test [$script_name]:не удалось открыть каталог $specific_test_dir");
 
     my @tests=readdir($specific_test_dir_hdl);
 
