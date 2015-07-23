@@ -27,11 +27,15 @@ $dst_path=~s/^(.+)\/.+$/$1/;
 if (! -d $dst_path)
 {  
   $tools->logprint("info","dir not created, create it");
-  my $dirs = eval { mkpath($dst_path) };
-  if($dirs ne undef)
+  eval 
+  {
+    mkpath($dst_path)
+  };
+  if ($@) 
   {
     $tools->logprint("info","Failed to create $dst_path: $@\n");
     print -1;
+    exit;
   }
 }
 
