@@ -165,11 +165,12 @@ if(defined($specific_test_dir))
 
 if($test_only!=1)
 {   
+    my $cfg_install=0;
     if(defined($src_script_cfg_dir))
     {
         my $command=$path.'/install/20_install_projects.pl '.$src_script_cfg_dir.'/'.$script_cfg_name.' '.$dst_script_cfg_dir.'/'.$script_cfg_name.' '.$path;
         $tools->logprint("info","unit test [$script_name]: install cfg $command");
-        my $cfg_install=`$command`; 
+        $cfg_install=`$command`; 
         if($cfg_install<0) 
         { 
             $tools->logprint("error","unit test [$script_name]: error install cfg file");
