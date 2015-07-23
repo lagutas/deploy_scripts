@@ -164,22 +164,26 @@ if(defined($specific_test_dir))
 }
 
 if($test_only!=1)
-{
-    my $command=$path.'/install/20_install_projects.pl '.$src_script_cfg_dir.'/'.$script_cfg_name.' '.$dst_script_cfg_dir.'/'.$script_cfg_name.' '.$path;
-    $tools->logprint("info","unit test [$script_name]: install cfg $command");
-    my $cfg_install=`$command`; 
-    if($cfg_install<0) 
-    { 
-        $tools->logprint("error","unit test [$script_name]: error install cfg file");
-        my $command=$path.'/install/mail_send.pl'.
-                                    ' -emails '.$emails.
-                                    ' -theme '.'"error install cfg file"'.
-                                    ' -path '.$path;
-        $tools->logprint("info","unit test [$script_name]: send mail $command");
-        `$command`;
-        print -1;
-        exit;
+{   
+    if(defined($src_script_cfg_dir))
+    {
+        my $command=$path.'/install/20_install_projects.pl '.$src_script_cfg_dir.'/'.$script_cfg_name.' '.$dst_script_cfg_dir.'/'.$script_cfg_name.' '.$path;
+        $tools->logprint("info","unit test [$script_name]: install cfg $command");
+        my $cfg_install=`$command`; 
+        if($cfg_install<0) 
+        { 
+            $tools->logprint("error","unit test [$script_name]: error install cfg file");
+            my $command=$path.'/install/mail_send.pl'.
+                                        ' -emails '.$emails.
+                                        ' -theme '.'"error install cfg file"'.
+                                        ' -path '.$path;
+            $tools->logprint("info","unit test [$script_name]: send mail $command");
+            `$command`;
+            print -1;
+            exit;
+        }
     }
+    
 
     my $command=$path.'/install/20_install_projects.pl '.$src_script_dir.'/script/'.$script_name.' '.$dst_script_dir.'/'.$script_name.' '.$path;
     $tools->logprint("info","unit test [$script_name]: install $command");
