@@ -9,8 +9,9 @@ use strict;
 my $my_dir = getcwd;
 
 
-
-my ($path,$script_name,$src_script_dir,$dst_script_dir,$script_cfg_name,$src_script_cfg_dir,$dst_script_cfg_dir,$test_dir,$emails,$test_only);
+#test_dir - simple test for all scripts
+#specific_test_dir - optional path to script specific test
+my ($path,$script_name,$src_script_dir,$dst_script_dir,$script_cfg_name,$src_script_cfg_dir,$dst_script_cfg_dir,$test_dir,$specific_test_dir,$emails,$test_only);
 
 GetOptions( "path=s"                => \$path, 
             "script_name=s"         => \$script_name,
@@ -20,6 +21,7 @@ GetOptions( "path=s"                => \$path,
             "src_script_cfg_dir=s"  => \$src_script_cfg_dir,
             "dst_script_cfg_dir=s"  => \$dst_script_cfg_dir,
             "test_dir=s"            => \$test_dir,
+            "specific_test_dir=s"   => \$specific_test_dir,
             "emails=s"              => \$emails,
             "test_only=s"           => \$test_only);
 
@@ -89,6 +91,75 @@ foreach(@test_num)
         `$command`;
         print -1;
         exit;
+    }
+}
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+if(defined($s))
+{
+    $tools->logprint("info","unit test [$script_name]: run script specific tests");
+
+    opendir(my $test_dir_hdl,$specific_test_dir) || $tools -> logprint("error","unit test [$script_name]:не удалось открыть каталог $specific_test_dir");
+
+    my @tests=readdir($specific_test_dir_hdl);
+
+    my %tests;
+    foreach(@tests)
+    {
+        if($_=~/^(\d\d).+t$/)
+        {
+            $tests{$1}=$_;
+        }
+    }
+    closedir $specific_test_dir_hdl;
+
+    my @test_num;
+    foreach my $key (keys %tests)
+    {
+        push(@test_num,$key);
+    }
+
+    @test_num = sort { $a <=> $b } @test_num;
+
+    #make dir for tests log
+    mkdir($my_dir.'/'.$src_script_dir.'/testlog');
+    #execute test in sequence
+    foreach(@test_num)
+    {
+        my $command='sudo perl '.$my_dir.'/'.$specific_test_dir.'/'.$tests{$_}.' '.$my_dir.'/'.$src_script_dir.'/script'.' 1>>'.$my_dir.'/'.$src_script_dir.'/testlog/'.$tests{$_}.'.log'.' 2>>'.$my_dir.'/'.$src_script_dir.'/testlog/'.$tests{$_}.'.log';
+        $tools->logprint("info","unit test [$script_name]: $tests{$_} run $command");
+        `$command`;
+        my $test_name=$tests{$_};
+        open(my $test_log,"<",$my_dir.'/'.$src_script_dir.'/testlog/'.$tests{$_}.'.log');
+        my $error_count=0;
+        my @message;
+        while (<$test_log>) 
+        {
+            chomp;
+            $tools->logprint("info","unit test [$script_name]: $test_name - $_");
+            unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
+            {
+                print $_."\n";
+                $tools->logprint("error","unit test [$script_name]: $test_name - $_");
+                push(@message,$_);
+                $error_count++;
+            }
+        }
+        close($test_log);
+        if($error_count>0)
+        {
+            $tools->logprint("error","unit test [$script_name]: project has many error: $error_count");
+            my $command=$path.'/install/mail_send.pl'.
+                                    ' -emails '.$emails.
+                                    ' -theme '.'"project has many error: '.$error_count.'"'.
+                                    ' -message "'.join("\n",@message).'"'.
+                                    ' -path '.$path;
+            $tools->logprint("info","unit test [$script_name]: send mail $command");
+            `$command`;
+            print -1;
+            exit;
+        }
     }
 }
 
