@@ -96,7 +96,7 @@ foreach(@test_num)
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-if(defined($s))
+if(defined($specific_test_dir))
 {
     $tools->logprint("info","unit test [$script_name]: run script specific tests");
 
