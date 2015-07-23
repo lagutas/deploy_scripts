@@ -25,19 +25,21 @@ $tools->logprint("info","20_install_project $src_file -> $dst_file");
 $dst_path=~s/^(.+)\/.+$/$1/;
 
 if (! -d $dst_path)
-{
-  my $dirs = eval { mkpath($dst_path) };
-  $tools->logprint("error","Failed to create $dst_path: $@\n") unless $dirs;
-  print -1;
-  
+{  my $dirs = eval { mkpath($dst_path) };
+
+  if($dirs ne undef)
+  {
+    $tools->logprint("error","Failed to create $dst_path: $@\n");
+    print -1;
+  }
 }
 
 #get diff between config files
 unless ( -e "$dst_file" ) 
 {
-	$tools->logprint("info","$dst_file not exist, copy new file");
-    copy $src_file,$dst_file or eval { $tools->logprint("error","error $src_file -> $dst_file $!"); print -1;};
-    print 1;
+  $tools->logprint("info","$dst_file not exist, copy new file");
+  copy $src_file,$dst_file or eval { $tools->logprint("error","error $src_file -> $dst_file $!"); print -1;};
+  print 1;
 }
 
 
