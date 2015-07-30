@@ -33,7 +33,7 @@ while (1)
 
     $tools->logprint("info","!$ctid - $ctid_ret!");
 
-    if($ctid_ret eq "stopped")
+    if($ctid_ret=~/stopped/)
     {
         my $vz_start="vzctl start $ctid  1>/dev/null 2> $path/25_vz_start.log";
         $tools->logprint("info","$vz_start");
