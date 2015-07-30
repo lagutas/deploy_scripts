@@ -45,6 +45,7 @@ unless ( -e "$dst_file" )
   $tools->logprint("info","$dst_file not exist, copy new file");
   copy $src_file,$dst_file or eval { $tools->logprint("error","error $src_file -> $dst_file $!"); print -1;};
   print 1;
+  exit;
 }
 
 
