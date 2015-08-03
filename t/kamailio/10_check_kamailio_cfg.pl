@@ -320,6 +320,18 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+contact_parser.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+parse_contact.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+get_contact_uri.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
