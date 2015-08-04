@@ -46,6 +46,17 @@ if ($pm eq "yum")
         $tools->logprint("info","install perl-Text-Diff");
         `sudo yum -y install perl-Text-Diff`; 
     }
+
+    #check DBI package in the current os
+    eval { require DBI };
+    my $dbi= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($dbi eq "No")
+    {
+        $tools->logprint("info","install perl-DBI");
+        `sudo yum -y install perl-DBI`; 
+    }
 }
 
 if ($pm eq "apt-get")
