@@ -66,7 +66,7 @@ if ($pm eq "yum")
     if($dbd_mysql eq "No")
     {
         $tools->logprint("info","install DBD::MySQL");
-        `sudo yum -y install DBD::MySQL`; 
+        `sudo yum -y install perl-DBD-MySQL`; 
     }
     
 }
