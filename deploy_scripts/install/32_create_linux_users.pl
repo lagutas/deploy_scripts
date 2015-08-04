@@ -47,11 +47,11 @@ EOQ
 my $dbh;
 eval 
 {
-    $dbh=DBI->connect("DBI:mysql:$db;host=$db_host",$db_user,$db_password) or die "Error: can't connect to $db $db_host $db_user: $!\n";
+    $dbh=DBI->connect("DBI:mysql:$db;host=$db_host",$db_user,$db_password);
 };
 if ($@) 
 {
-    die "Error: can't connect to $db $db_host $db_user $!\n";
+    die "Error: can't connect to $db $db_host $db_user $@\n";
 }
 $dbh->{mysql_auto_reconnect} = 1;
 

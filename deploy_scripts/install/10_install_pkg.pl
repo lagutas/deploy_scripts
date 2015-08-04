@@ -57,6 +57,18 @@ if ($pm eq "yum")
         $tools->logprint("info","install perl-DBI");
         `sudo yum -y install perl-DBI`; 
     }
+
+    #check perl-DBD-MySQL package in the current os
+    eval { require DBD::MySQL };
+    my $dbd_mysql= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($dbd_mysql eq "No")
+    {
+        $tools->logprint("info","install DBD::MySQL");
+        `sudo yum -y install DBD::MySQL`; 
+    }
+    
 }
 
 if ($pm eq "apt-get")
