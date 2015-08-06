@@ -216,7 +216,7 @@ if($test_only!=1)
         $tools->logprint("info","unit test [$script_name]: need script restart");
         my $command=$path.'/install/mail_send.pl'.
                                     ' -emails '.$emails.
-                                    ' -theme '.'"[$script_name]: need script restart"'.
+                                    ' -theme '.'"['.$script_name.']: need script restart"'.
                                     ' -path '.$path;
         $tools->logprint("info","unit test [$script_name]: send mail $command");
         `$command`;
