@@ -85,7 +85,10 @@ if(!defined($need_restart))
 else
 {
     #print STDERR "надо\n";
-    #kill all kamailio process
+    #kill all kamailio process, lock restart kamailio script
+    open(LOCK_FILE,'>','/tmp/kamailio_deploy_lock');
+    print LOCK_FILE "deploy progress\n";
+    close(LOCK_FILE);
     `killall -9 kamailio 1>/dev/null 2>/dev/null`;
 
     sleep(5);
@@ -102,6 +105,8 @@ else
     {
         `/etc/init.d/kamailio start`;
         sleep(5);
+        #lock release
+        unlink("/tmp/kamailio_deploy_lock");
     }
 
 
