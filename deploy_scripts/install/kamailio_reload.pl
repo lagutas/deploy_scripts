@@ -86,9 +86,9 @@ else
 {
     #print STDERR "надо\n";
     #kill all kamailio process, lock restart kamailio script
-    open(LOCK_FILE,'>','/tmp/kamailio_deploy_lock');
-    print LOCK_FILE "deploy progress\n";
-    close(LOCK_FILE);
+    open(DEPLOY_LOCK_FILE,'>','/tmp/kamailio_deploy_lock');
+    print DEPLOY_LOCK_FILE "deploy progress\n";
+    close(DEPLOY_LOCK_FILE);
     `killall -9 kamailio 1>/dev/null 2>/dev/null`;
 
     sleep(5);
