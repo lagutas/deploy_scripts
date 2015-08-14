@@ -194,7 +194,7 @@ if($test_only!=1)
         $tools->logprint("error","unit test [$script_name]: error install script");
         my $command=$path.'/install/mail_send.pl'.
                                     ' -emails '.$emails.
-                                    ' -theme '.'"error install script"'.
+                                    ' -theme '.'"error install script '.$script_name.'"'.
                                     ' -path '.$path;
         $tools->logprint("info","unit test [$script_name]: send mail $command");
         `$command`;
