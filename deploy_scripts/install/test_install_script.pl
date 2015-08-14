@@ -176,7 +176,7 @@ if($test_only!=1)
             $tools->logprint("error","unit test [$script_name]: error install cfg file");
             my $command=$path.'/install/mail_send.pl'.
                                         ' -emails '.$emails.
-                                        ' -theme '.'"error install cfg file"'.
+                                        ' -theme '.'"['.$script_name.']: error install cfg file"'.
                                         ' -path '.$path;
             $tools->logprint("info","unit test [$script_name]: send mail $command");
             `$command`;
@@ -194,7 +194,7 @@ if($test_only!=1)
         $tools->logprint("error","unit test [$script_name]: error install script");
         my $command=$path.'/install/mail_send.pl'.
                                     ' -emails '.$emails.
-                                    ' -theme '.'"error install script '.$script_name.'"'.
+                                    ' -theme '.'"['.$script_name.']: error install script"'.
                                     ' -path '.$path;
         $tools->logprint("info","unit test [$script_name]: send mail $command");
         `$command`;
