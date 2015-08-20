@@ -70,7 +70,7 @@ foreach(@test_num)
     {
         chomp;
         $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-        if($_=~/not\sok/)
+        if($_=~/not\sok/||$_=~/Can't\slocate/)
         {
             print $_."\n";
             $tools->logprint("error","unit test [$script_name]: $test_name - $_");
@@ -138,7 +138,7 @@ if(defined($specific_test_dir))
         {
             chomp;
             $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-            if($_=~/not\sok/)
+            if($_=~/not\sok/||$_=~/Can't\slocate/)
             {
                 print $_."\n";
                 $tools->logprint("error","unit test [$script_name]: $test_name - $_");
