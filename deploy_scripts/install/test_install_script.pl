@@ -69,9 +69,9 @@ foreach(@test_num)
     while (<$test_log>) 
     {
         chomp;
-        $tools->logprint("info","unit test [$script_name]: $test_name - $_");
+        $tools->logprint("info","unit test [$script_name]: $test_name - !$_!");
         #unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
-        if($_=~/^not\sok.+/||$_=~/^.+not\sok.+/)
+        if($_=~/^not.ok.+/||$_=~/^.+not.ok.+/)
         {
             print $_."\n";
             $tools->logprint("error","unit test [$script_name]: $test_name - $_");
