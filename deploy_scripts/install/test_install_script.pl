@@ -70,7 +70,6 @@ foreach(@test_num)
     {
         chomp;
         $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-        #unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
         if($_=~/not\sok/)
         {
             print $_."\n";
@@ -139,7 +138,6 @@ if(defined($specific_test_dir))
         {
             chomp;
             $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-            #unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
             if($_=~/not\sok/)
             {
                 print $_."\n";
