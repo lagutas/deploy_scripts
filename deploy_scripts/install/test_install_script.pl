@@ -69,9 +69,9 @@ foreach(@test_num)
     while (<$test_log>) 
     {
         chomp;
-        $tools->logprint("info","unit test [$script_name]: $test_name - !$_!");
+        $tools->logprint("info","unit test [$script_name]: $test_name - $_");
         #unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
-        if($_=~/^not.ok.+/||$_=~/^.+not.ok.+/)
+        if($_=~/not\sok/)
         {
             print $_."\n";
             $tools->logprint("error","unit test [$script_name]: $test_name - $_");
@@ -139,7 +139,8 @@ if(defined($specific_test_dir))
         {
             chomp;
             $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-            unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
+            #unless($_=~/^ok.+/||$_=~/^\d+.+\d+$/)
+            if($_=~/not\sok/)
             {
                 print $_."\n";
                 $tools->logprint("error","unit test [$script_name]: $test_name - $_");
