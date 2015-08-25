@@ -71,6 +71,9 @@ if ($pm eq "yum")
     
     $tools->logprint("info","install mutt");
     `sudo yum -y install mutt`; 
+
+    $tools->logprint("info","install ssmtp");
+    `sudo yum -y install ssmtp`; 
 }
 
 if ($pm eq "apt-get")
