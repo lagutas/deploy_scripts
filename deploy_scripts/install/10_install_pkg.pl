@@ -86,6 +86,18 @@ if ($pm eq "yum")
         `sudo yum -y install perl-Test-Strict`; 
     }
 
+    #check perl-Test-Fixme package in the current os
+    eval { require Test::Fixme };
+    my $dbd_mysql= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($dbd_mysql eq "No")
+    {
+        $tools->logprint("info","install perl-Test-Fixme");
+        `sudo yum -y install perl-Test-Fixme`; 
+    }
+    
+
     
 }
 
