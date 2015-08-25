@@ -74,6 +74,19 @@ if ($pm eq "yum")
 
     $tools->logprint("info","install ssmtp");
     `sudo yum -y install ssmtp`; 
+
+    #check perl-Test-Strict package in the current os
+    eval { require Test::Strict };
+    my $dbd_mysql= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($dbd_mysql eq "No")
+    {
+        $tools->logprint("info","install perl-Test-Strict");
+        `sudo yum -y install perl-Test-Strict`; 
+    }
+
+    
 }
 
 if ($pm eq "apt-get")
