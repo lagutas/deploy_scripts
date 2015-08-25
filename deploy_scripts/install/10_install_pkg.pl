@@ -77,10 +77,10 @@ if ($pm eq "yum")
 
     #check perl-Test-Strict package in the current os
     eval { require Test::Strict };
-    my $dbd_mysql= $@ ? 'No' : 'Yes';
+    my $test_strict= $@ ? 'No' : 'Yes';
 
     #install package quiet
-    if($dbd_mysql eq "No")
+    if($test_strict eq "No")
     {
         $tools->logprint("info","install perl-Test-Strict");
         `sudo yum -y install perl-Test-Strict`; 
@@ -88,16 +88,27 @@ if ($pm eq "yum")
 
     #check perl-Test-Fixme package in the current os
     eval { require Test::Fixme };
-    my $dbd_mysql= $@ ? 'No' : 'Yes';
+    my $test_fixme= $@ ? 'No' : 'Yes';
 
     #install package quiet
-    if($dbd_mysql eq "No")
+    if($test_fixme eq "No")
     {
         $tools->logprint("info","install perl-Test-Fixme");
         `sudo yum -y install perl-Test-Fixme`; 
     }
-    
 
+    #check perl-Test-Perl-Critic package in the current os
+    eval { require Test::Perl::Critic };
+    my $test_perl_critic= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($test_perl_critic eq "No")
+    {
+        $tools->logprint("info","install perl-Test-Perl-Critic");
+        `sudo yum -y install perl-Test-Perl-Critic`; 
+    }
+    
+    
     
 }
 
