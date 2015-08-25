@@ -69,6 +69,8 @@ if ($pm eq "yum")
         `sudo yum -y install perl-DBD-MySQL`; 
     }
     
+    $tools->logprint("info","install mutt");
+    `sudo yum -y install mutt`; 
 }
 
 if ($pm eq "apt-get")
