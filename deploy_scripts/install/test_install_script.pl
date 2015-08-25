@@ -69,7 +69,7 @@ foreach(@test_num)
     while (<$test_log>) 
     {
         chomp;
-        $tools->logprint("info","unit test [$script_name]: $test_name - $_");
+        $tools->logprint("info","unit test [$script_name]: $test_name - $_ !!!");
         if($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/)
         {
             print $_."\n";
