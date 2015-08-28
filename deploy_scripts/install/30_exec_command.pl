@@ -10,9 +10,8 @@ my $path=shift;
 
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logsize         =>      '1Mb',
-                            log_num         =>      4);
+#my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile         =>      'Syslog');
 
 my $exec_command=$command." 1>/dev/null 2>$path/exec_log.log";
 

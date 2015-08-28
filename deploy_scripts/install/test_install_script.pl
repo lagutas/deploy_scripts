@@ -26,7 +26,8 @@ GetOptions( "path=s"                => \$path,
             "test_only=s"           => \$test_only);
 
 
-my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+#my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 $tools->logprint("info","unit test [$script_name]: $script_name");
 

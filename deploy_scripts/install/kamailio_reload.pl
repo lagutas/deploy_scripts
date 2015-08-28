@@ -15,7 +15,8 @@ GetOptions( "path=s"            => \$path,
 
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+#my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 
 $tools->logprint("info","kamailio reload path - $path, kamailio_path - $kamailio_path, emails - $emails");

@@ -16,10 +16,9 @@ if(!defined($ctid))
 
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logsize         =>      '1Mb',
-                            log_num         =>      4);
 
+#my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile         =>      'Syslog');
 while (1) 
 {
     $tools->logprint("info","check vz $ctid");

@@ -7,7 +7,8 @@ use strict;
 my $path=shift;
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log',
+my $tools=Logic::Tools->new(#logfile         =>      $my_dir.'/'.$path.'/deploy.log',
+                            logfile         =>      'Syslog',
                             logsize         =>      '1Mb',
                             log_num         =>      4);
 

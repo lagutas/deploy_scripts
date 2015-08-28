@@ -19,7 +19,8 @@ GetOptions( "emails=s"   => \$emails,
             "path=s"     => \$path);
 
 
-my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+#my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 $tools->logprint("info","send mail: $emails: [$theme] $message");
 

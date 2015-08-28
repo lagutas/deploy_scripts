@@ -16,7 +16,8 @@ my $path = shift;
 my $result=0;
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+#my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 my $dst_path=$dst_file;
 
