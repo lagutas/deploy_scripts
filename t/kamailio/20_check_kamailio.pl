@@ -10,7 +10,7 @@ GetOptions( "path=s"            => \$path,
             "emails=s"          => \$emails);
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 
 my $kamailio_pid_file;
