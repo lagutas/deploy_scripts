@@ -61,19 +61,19 @@ unless( -e "/tmp/kamailio_ctl" )
 }
 
 my $fifo_error;
-unless( -e "/tmp/kamailio_fifo" )
+unless( -e "/tmp/kamailio_fifo" || -e "/var/run/kamailio/kamailio_fifo")
 {
     my $command=$path.'/install/mail_send.pl'.
                                 ' -emails '.$emails.
                                 ' -theme '.'"[kamailio deploy]: test after reboot"'.
                                 ' -path '.$path.
-                                ' -message '.'"/tmp/kamailio_fifo not exist"';
+                                ' -message '.'"kamailio_fifo not exist"';
     $tools->logprint("info","exec $command");
     `$command`;
     if($fifo_error!=2)
     {
         $fifo_error=1;
-        print "error: /tmp/kamailio_fifo not exist\n";
+        print "error: kamailio_fifo not exist\n";
     }
 }
 
