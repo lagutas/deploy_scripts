@@ -90,11 +90,14 @@ else
     open(my $kamailio_deploy_lock,'>','/tmp/kamailio_deploy_lock');
     print $kamailio_deploy_lock "deploy progress\n";
     close($kamailio_deploy_lock);
-    `killall -9 kamailio 1>/dev/null 2>/dev/null`;
+    my $killall_command="killall -9 kamailio 1>/dev/null 2>/dev/null";
+    $tools->logprint("info","exec $killall_command");
+    `$killall_command`;
 
     sleep(5);
 
     unlink("/tmp/kamailio_fifo");
+    unlink("/var/run/kamailio/kamailio_fifo");
     unlink("/tmp/kamailio_ctl");
 
 
@@ -104,7 +107,9 @@ else
     my $uptime=get_kamailio_uptime();
     if($uptime eq undef)
     {
-        `/etc/init.d/kamailio start`;
+        my $kamailio_start_command="/etc/init.d/kamailio start";
+        $tools->logprint("info","exec kamailio_start_command");
+        `kamailio_start_command`;    
         sleep(5);
         #lock release
         unlink("/tmp/kamailio_deploy_lock");
