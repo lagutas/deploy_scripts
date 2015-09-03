@@ -108,8 +108,8 @@ else
     if($uptime eq undef)
     {
         my $kamailio_start_command="/etc/init.d/kamailio start";
-        $tools->logprint("info","exec kamailio_start_command");
-        `kamailio_start_command`;    
+        $tools->logprint("info","exec $kamailio_start_command");
+        `$kamailio_start_command`;    
         sleep(5);
         #lock release
         unlink("/tmp/kamailio_deploy_lock");
