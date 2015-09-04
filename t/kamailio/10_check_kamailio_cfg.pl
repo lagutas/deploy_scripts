@@ -340,6 +340,18 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+db_do_delete.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+delete_offline_presentities.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+process_dialogs.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
