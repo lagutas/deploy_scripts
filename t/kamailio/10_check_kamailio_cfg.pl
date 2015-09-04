@@ -352,6 +352,10 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+db_mysql_submit_query.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
