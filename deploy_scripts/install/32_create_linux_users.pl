@@ -9,8 +9,7 @@ use strict;
 my $path=shift;
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(#logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logfile         =>      'Syslog',
+my $tools=Logic::Tools->new(logfile         =>      'Syslog',
                             config_file     =>      '/etc/deploy_scripts/create_linux_users.ini');
 
 my $db_host=$tools->read_config( 'create_linux_users', 'db_host');
