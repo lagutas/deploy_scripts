@@ -108,6 +108,9 @@ if ($pm eq "yum")
         $tools->logprint("info","install perl-Test-Perl-Critic");
         `sudo yum -y install perl-Test-Perl-Critic`; 
     }
+
+    $tools->logprint("info","install ntp");
+        `sudo yum -y install ntp`; 
     
     
     
