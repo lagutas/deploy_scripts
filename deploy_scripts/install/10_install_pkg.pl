@@ -110,8 +110,19 @@ if ($pm eq "yum")
     }
 
     $tools->logprint("info","install ntp");
-        `sudo yum -y install ntp`; 
+    `sudo yum -y install ntp`; 
     
+    my $ntpd_status=chomp(`sudo /etc/init.d/ntpd status`);
+    if($ntpd_status =~ /is\srunning/)
+    {
+        $tools->logprint("info","ntpd is running");
+    }
+    else
+    {
+        $tools->logprint("info","try run ntpd");
+        `sudo /etc/init.d/ntpd start`;
+    }
+
     
     
 }
