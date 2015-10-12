@@ -356,6 +356,14 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+parse_from_uri.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+pv_get_xto_attr.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
