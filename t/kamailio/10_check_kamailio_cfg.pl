@@ -364,6 +364,14 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+parse_cseq.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+reply_filter.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
