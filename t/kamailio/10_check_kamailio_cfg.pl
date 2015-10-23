@@ -376,6 +376,14 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+extract_aor.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
+        elsif($_=~/^.+registered.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
