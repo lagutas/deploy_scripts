@@ -2,11 +2,11 @@
 
 use Logic::Tools;
 use Cwd;
-
 use strict;
 
 my $ctid=shift;
 my $path=shift;
+my $my_dir = getcwd;
 
 if(!defined($ctid))
 {
@@ -14,12 +14,8 @@ if(!defined($ctid))
     exit;
 }
 
-
-my $my_dir = getcwd;
 my $tools=Logic::Tools->new(#logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logfile         =>      'Syslog',
-                            logsize         =>      '1Mb',
-                            log_num         =>      4);
+                            logfile         =>      'Syslog',);
 
 $tools->logprint("info","check vz $ctid");
 my @vz_list=split("\n",`vzlist $ctid 2>/dev/null`);
