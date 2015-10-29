@@ -14,8 +14,7 @@ if(!defined($ctid))
     exit;
 }
 
-my $tools=Logic::Tools->new(#logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logfile         =>      'Syslog');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 $tools->logprint("info","check vz $ctid");
 my @vz_list=split("\n",`vzlist $ctid 2>/dev/null`);
@@ -27,7 +26,6 @@ if (defined($vz_list[1]))
 }
 
 $tools->logprint("info","$ctid_ret != $ctid");
-
 
 if($ctid_ret != $ctid)
 {
