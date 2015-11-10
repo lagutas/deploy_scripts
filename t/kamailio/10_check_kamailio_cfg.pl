@@ -384,6 +384,10 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+db_do_query_internal.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
