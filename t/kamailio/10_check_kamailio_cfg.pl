@@ -20,11 +20,11 @@ my $tools=Logic::Tools->new(logfile => 'Syslog');
 $tools->logprint("info","kamailio test path - $path, kamailio_path - $kamailio_path, emails - $emails");
 
 #1 - test simple config for sintax -------------------------------------------------------------------
-$tools->logprint("info","run: kamailio -f $kamailio_path/kamailio.cfg -c 1>/dev/null 2>check_log");
-`kamailio -f $kamailio_path/kamailio.cfg -c 1>/dev/null 2>check_log`;
+$tools->logprint("info","run: kamailio -f $kamailio_path/kamailio.cfg -c 1>$path/dev/null 2>$path/check_log1");
+`kamailio -f $kamailio_path/kamailio.cfg -c 1>/dev/null 2>$path/check_log1`;
 
 
-open(my $check_log,"<","check_log");
+open(my $check_log,"<","$path/check_log1");
 
 my $i=0;
 while(<$check_log>)
@@ -44,7 +44,7 @@ close($check_log);
 #если счетчик итераций больше 0 - значит ошибки в файле есть, выводим их на экран
 if($i>0)
 {
-    open(my $check_log,"<","check_log");
+    open(my $check_log,"<","$path/check_log1");
     my @check_log;
     while(<$check_log>)
     {
@@ -124,11 +124,11 @@ eval
         #add debug flag to kamailio start comand
         if(defined($kamailio_start_command))
         {
-            $kamailio_start_command=$kamailio_start_command." -f ".$kamailio_path."/kamailio_test.cfg -D -E 1>>check_log 2>>check_log";
+            $kamailio_start_command=$kamailio_start_command." -f ".$kamailio_path."/kamailio_test.cfg -D -E 1>>$path/check_log2 2>>$path/check_log2";
         }
         else
         {
-            $kamailio_start_command="/usr/sbin/kamailio -P /var/run/kamailio.pid -m 256 -M 32 -u kamailio -g kamailio -f ".$kamailio_path."/kamailio_test.cfg -D -E 1>>check_log 2>>check_log";
+            $kamailio_start_command="/usr/sbin/kamailio -P /var/run/kamailio.pid -m 256 -M 32 -u kamailio -g kamailio -f ".$kamailio_path."/kamailio_test.cfg -D -E 1>>$path/check_log2 2>>$path/check_log2";
         }
         #print STDERR "$kamailio_start_command"."\n";
         $tools->logprint("info","run: $kamailio_start_command");
@@ -168,7 +168,7 @@ if ($@)
     }
 }
 
-open(my $check_log,"<","check_log");
+open(my $check_log,"<","$path/check_log2");
 my @check_log;
 my $i=0;
 while(<$check_log>)
