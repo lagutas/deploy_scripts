@@ -33,7 +33,7 @@ $tools->logprint("info","unit test [$script_name]: $script_name");
 
 $tools->logprint("info","unit test [$script_name]: read test dir $test_dir");
 
-opendir(my $test_dir_hdl,$test_dir) || $tools -> logprint("error","unit test [$script_name]:не удалось открыть каталог $test_dir");
+opendir(my $test_dir_hdl,$test_dir) || $tools -> logprint("info","unit test [$script_name]:не удалось открыть каталог $test_dir");
 
 my @tests=readdir($test_dir_hdl);
 
@@ -73,8 +73,8 @@ foreach(@test_num)
         $tools->logprint("info","unit test [$script_name]: $test_name - $_");
         if($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/||$_=~/failed/||$_=~/syntax\serror/||$_=~/Invalid/)
         {
-            print $_."\n";
-            $tools->logprint("error","unit test [$script_name]: $test_name - $_");
+            #print $_."\n";
+            $tools->logprint("info","unit test [$script_name]: $test_name - $_");
             push(@message,$_);
             $error_count++;
         }
@@ -82,7 +82,7 @@ foreach(@test_num)
     close($test_log);
     if($error_count>0)
     {
-        $tools->logprint("error","unit test [$script_name]: project has many error: $error_count");
+        $tools->logprint("info","unit test [$script_name]: project has many error: $error_count");
         my $command=$path.'/install/mail_send.pl'.
                                 ' -emails '.$emails.
                                 ' -theme '.'"project has many error: '.$error_count.'"'.
@@ -101,7 +101,7 @@ if(defined($specific_test_dir))
 {
     $tools->logprint("info","unit test [$script_name]: run script specific tests");
 
-    opendir(my $specific_test_dir_hdl,$specific_test_dir) || $tools -> logprint("error","unit test [$script_name]:не удалось открыть каталог $specific_test_dir");
+    opendir(my $specific_test_dir_hdl,$specific_test_dir) || $tools -> logprint("info","unit test [$script_name]:не удалось открыть каталог $specific_test_dir");
 
     my @tests=readdir($specific_test_dir_hdl);
 
@@ -142,7 +142,7 @@ if(defined($specific_test_dir))
             if($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/||$_=~/failed/||$_=~/syntax\serror/||$_=~/Invalid/)
             {
                 print $_."\n";
-                $tools->logprint("error","unit test [$script_name]: $test_name - $_");
+                $tools->logprint("info","unit test [$script_name]: $test_name - $_");
                 push(@message,$_);
                 $error_count++;
             }
@@ -150,7 +150,7 @@ if(defined($specific_test_dir))
         close($test_log);
         if($error_count>0)
         {
-            $tools->logprint("error","unit test [$script_name]: project has many error: $error_count");
+            $tools->logprint("info","unit test [$script_name]: project has many error: $error_count");
             my $command=$path.'/install/mail_send.pl'.
                                     ' -emails '.$emails.
                                     ' -theme '.'"project has many error: '.$error_count.'"'.
@@ -174,7 +174,7 @@ if($test_only!=1)
         $cfg_install=`$command`; 
         if($cfg_install<0) 
         { 
-            $tools->logprint("error","unit test [$script_name]: error install cfg file");
+            $tools->logprint("info","unit test [$script_name]: error install cfg file");
             my $command=$path.'/install/mail_send.pl'.
                                         ' -emails '.$emails.
                                         ' -theme '.'"['.$script_name.']: error install cfg file"'.
@@ -192,7 +192,7 @@ if($test_only!=1)
     my $script_install=`$command`; 
     if($script_install<0) 
     { 
-        $tools->logprint("error","unit test [$script_name]: error install script");
+        $tools->logprint("info","unit test [$script_name]: error install script");
         my $command=$path.'/install/mail_send.pl'.
                                     ' -emails '.$emails.
                                     ' -theme '.'"['.$script_name.']: error install script"'.
@@ -206,7 +206,7 @@ if($test_only!=1)
     my $command='sudo chmod +x '.$dst_script_dir.'/'.$script_name;
     my $chmod=`$command`; if($chmod ne undef) 
     {
-        $tools->logprint("error","unit test [$script_name]: $chmod");
+        $tools->logprint("info","unit test [$script_name]: $chmod");
         print -1;
         exit;
     }
