@@ -91,6 +91,7 @@ foreach(@test_num)
         $tools->logprint("info","unit test [$script_name]: send mail $command");
         `$command`;
         print -1;
+        die "ERROR: BUILD FAILED\n";
         exit;
     }
 }
@@ -159,6 +160,7 @@ if(defined($specific_test_dir))
             $tools->logprint("info","unit test [$script_name]: send mail $command");
             `$command`;
             print -1;
+            die "ERROR: BUILD FAILED\n";
             exit;
         }
     }
