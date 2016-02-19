@@ -22,7 +22,7 @@ my $db2=$tools->read_config( 'create_monast_users', 'db');
 my %query;
 $query{'get_linux_users'} = <<EOQ;
 SELECT
-    u.login, u.secret, sr.rules
+    u.login, u.secret
 FROM
     $db1.service_access_matrix sam
     JOIN $db1.services s ON s.id = sam.services_id
