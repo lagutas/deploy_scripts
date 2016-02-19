@@ -24,12 +24,9 @@ $query{'get_linux_users'} = <<EOQ;
 SELECT
     u.login, u.secret, sr.rules
 FROM
-    $db1.access_matrix am
-    JOIN $db1.servers s ON s.id = am.servers_id
-    JOIN $db1.users u ON u.id = am.users_id
-    JOIN $db1.sudo_rules sr ON sr.id = am.sudo_rules_id
-WHERE
-    s.domain = ?;
+    $db1.services_access_matrix sam
+    JOIN $db1.services s ON s.id = sam.services_id
+    JOIN $db1.users u ON u.id = sam.users_id
 EOQ
 
 $query{'get_server_id'} = "SELECT id FROM monast_servers;";
@@ -55,7 +52,7 @@ chomp(my $hostname=`sudo hostname`);
 $tools->logprint("info","hostname - $hostname");
 
 my $sth=$dbh->prepare($query{'get_linux_users'});
-$sth->execute($hostname) or die "Error: query $query{'get_linux_users'} failed: $!";
+$sth->execute() or die "Error: query $query{'get_linux_users'} failed: $!";
 
 my %user_hash;
 while(my $user_ref=$sth->fetchrow_hashref()) {
