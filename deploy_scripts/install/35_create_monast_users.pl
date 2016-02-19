@@ -24,7 +24,7 @@ $query{'get_linux_users'} = <<EOQ;
 SELECT
     u.login, u.secret, sr.rules
 FROM
-    $db1.services_access_matrix sam
+    $db1.service_access_matrix sam
     JOIN $db1.services s ON s.id = sam.services_id
     JOIN $db1.users u ON u.id = sam.users_id
 EOQ

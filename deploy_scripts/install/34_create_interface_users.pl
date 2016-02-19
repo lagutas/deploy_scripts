@@ -33,7 +33,7 @@ $query{'check_user_exist'} = <<EOQ;
 SELECT
     count(*) as num
 FROM
-    $db.services_access_matrix sam
+    $db.service_access_matrix sam
     JOIN $db.services s ON s.id = sam.services_id
     JOIN $db.users u ON u.id = sam.users_id
 WHERE
