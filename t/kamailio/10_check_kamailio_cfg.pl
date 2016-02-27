@@ -388,6 +388,10 @@ while(<$check_log>)
         {
             $tools->logprint("info","test 2 not critical error");
         }
+        elsif($_=~/^.+failover\sfunctions\sused,\sbut\srequired\sAVP\sparameters\sare\sNULL.+$/)
+        {
+            $tools->logprint("info","test 2 not critical error");
+        }
         else
         {
             $i++;
