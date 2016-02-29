@@ -24,22 +24,19 @@ $query{'get_linux_users'} = <<EOQ;
 SELECT
     u.login, u.secret
 FROM
-    $db.access_matrix am
-    JOIN $db.servers s ON s.id = am.servers_id
-    JOIN $db.users u ON u.id = am.users_id
-WHERE
-    s.domain = ?;
+    $db.service_access_matrix sam
+    JOIN $db.services s ON s.id = sam.services_id
+    JOIN $db.users u ON u.id = sam.users_id
 EOQ
 
 $query{'check_user_exist'} = <<EOQ;
 SELECT
     count(*) as num
 FROM
-    $db.access_matrix am
-    JOIN $db.servers s ON s.id = am.servers_id
-    JOIN $db.users u ON u.id = am.users_id
+    $db.service_access_matrix sam
+    JOIN $db.services s ON s.id = sam.services_id
+    JOIN $db.users u ON u.id = sam.users_id
 WHERE
-    s.domain = ? AND
     u.login =?;
 EOQ
 
@@ -60,7 +57,7 @@ $tools->logprint("info","hostname - $hostname");
 
 my $sth=$dbh->prepare($query{'get_linux_users'});
 
-$sth->execute($hostname) or die "Error: query $query{'get_linux_users'} failed: $!";
+$sth->execute() or die "Error: query $query{'get_linux_users'} failed: $!";
 
 `sudo touch $dir/.htpasswd`;
 
@@ -85,7 +82,7 @@ foreach(split("\n"),`sudo cat $dir/.htpasswd`)
     }    
     my $check_user_exist_sth=$dbh->prepare($query{'check_user_exist'});
 
-    $check_user_exist_sth->execute($hostname,$user);
+    $check_user_exist_sth->execute($user);
 
     my $check_user_exist_ref=$check_user_exist_sth->fetchrow_hashref();
 
