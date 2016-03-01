@@ -40,6 +40,8 @@ $query{'add_monast_users'} = "INSERT INTO monast_users VALUES (?,?,'originate,qu
 
 $query{'create_monast_conf'} = "insert into task_queue values(NULL,?,'now',Now(),?);";
 
+$query{'del_monast_users'} = "delete from monast_users";
+
 my $dbh;
 eval 
 {
@@ -53,6 +55,10 @@ $dbh->{mysql_auto_reconnect} = 1;
 
 chomp(my $hostname=`sudo hostname`);
 $tools->logprint("info","hostname - $hostname");
+
+my $sth=$dbh->prepare($query{'del_monast_users'});
+$sth->execute() or die "Error: query $query{'get_linux_users'} failed: $!";
+$sth->finish();
 
 my $sth=$dbh->prepare($query{'get_linux_users'});
 $sth->execute($hostname) or die "Error: query $query{'get_linux_users'} failed: $!";
