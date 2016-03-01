@@ -56,10 +56,6 @@ $dbh->{mysql_auto_reconnect} = 1;
 chomp(my $hostname=`sudo hostname`);
 $tools->logprint("info","hostname - $hostname");
 
-my $sth=$dbh->prepare($query{'del_monast_users'});
-$sth->execute() or die "Error: query $query{'get_linux_users'} failed: $!";
-$sth->finish();
-
 my $sth=$dbh->prepare($query{'get_linux_users'});
 $sth->execute($hostname) or die "Error: query $query{'get_linux_users'} failed: $!";
 
@@ -81,6 +77,10 @@ if ($@)
     die "Error: can't connect to $db2 $db_host2 $db_user $@\n";
 }
 $dbh->{mysql_auto_reconnect} = 1;
+
+my $sth=$dbh->prepare($query{'del_monast_users'});
+$sth->execute() or die "Error: query $query{'del_monast_users'} failed: $!";
+$sth->finish();
 
 my $sth=$dbh->prepare($query{'get_server_id'});
 $sth->execute() or die "Error: query $query{'get_server_id'} failed: $!";
