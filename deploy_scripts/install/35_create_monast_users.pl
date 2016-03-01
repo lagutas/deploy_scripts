@@ -27,6 +27,9 @@ FROM
     $db1.service_access_matrix sam
     JOIN $db1.services s ON s.id = sam.services_id
     JOIN $db1.users u ON u.id = sam.users_id
+    JOIN $db1.servers ser ON ser.id = sam.servers_id
+WHERE
+    ser.domain= ?;
 EOQ
 
 $query{'get_server_id'} = "SELECT id FROM monast_servers;";
@@ -52,7 +55,7 @@ chomp(my $hostname=`sudo hostname`);
 $tools->logprint("info","hostname - $hostname");
 
 my $sth=$dbh->prepare($query{'get_linux_users'});
-$sth->execute() or die "Error: query $query{'get_linux_users'} failed: $!";
+$sth->execute($hostname) or die "Error: query $query{'get_linux_users'} failed: $!";
 
 my %user_hash;
 while(my $user_ref=$sth->fetchrow_hashref()) {
