@@ -124,6 +124,15 @@ if ($pm eq "yum")
         `sudo /etc/init.d/ntpd start`;
     }
 
+    #check MySQL-python package exist in system 
+    eval { `python -c "help('modules');" | grep -i mysqldb | awk '{print $1}'`};
+    my $test_mysqldb_py = $@ ? 'No' : 'Yes';
+    if ($test_mysqldb_py eq 'No')
+    {
+        $tools->logprint("info","sudo yum -y install MySQL-python 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo yum -y install MySQL-python 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log`
+    }
+
     
     
 }
@@ -224,6 +233,13 @@ if ($pm eq "apt-get")
         $tools->logprint("info","sudo apt-get -y install libtest-kwalitee-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libtest-kwalitee-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
     }
-   
     
+    #check python-mysqldb 
+    eval { `python -c "help('modules');" | grep -i mysqldb | awk '{print $1}'`};
+    my $test_mysqldb_py = $@ ? 'No' : 'Yes';
+    if ($test_mysqldb_py eq 'No')
+    {
+        $tools->logprint("info","sudo apt-get -y install python-mysqldb 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install python-mysqldb 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log`
+    }
 }
