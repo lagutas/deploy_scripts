@@ -52,7 +52,7 @@ elif dist=='debian':
         syslog.syslog("{pkg_name} already installed".format(pkg_name=pkg_name))
     elif pkg2.is_installed:
         syslog.syslog("{pkg_name} already installed".format(pkg_name=mysqldb_mod_py))
-    elif:
+    else:
         syslog.syslog('Zabbix agent is not installed yet, insalling...')
         pkg.mark_install()
         pkg2.mark_install()
