@@ -111,7 +111,7 @@ Hostname=%s
 ############ ADVANCED PARAMETERS #################
 # Timeout=3
 # AllowRoot=0
-Include=%s /etc/zabbix/zabbix_agentd.d/
+Include=%s
 ####### USER-DEFINED MONITORED PARAMETERS #######
 # UnsafeUserParameters=0
 # UserParameter=
