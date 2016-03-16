@@ -20,6 +20,8 @@ zapi_host='priv.zabbix.itlogic.pro'
 zapi_user='Admin'
 zapi_password='Questions' 
 Hostname=os.uname()[1]
+Zserver=zapi_host #Fix this in case of separate frontend and zabbix server
+ZserverActive=Zserver
 serv_list=[]
 Template_list=['Linux'] # There is default template linux, If there 
 HostMetadata = "" # Define variable for store metadata of host
@@ -66,7 +68,7 @@ try:
     con=MySQLdb.connect(host=itldb_host, user=itldb_user, passwd=itldb_password, db=itldb)
     cur=con.cursor()
     cur.execute('SET NAMES `utf8`')
-    cur.execute('SELECT s.domain,st.type_name FROM servers s JOIN serv_matrix sm ON s.id=sm.servers_id JOIN servers_types st ON sm.servers_types_id=st.id;"')
+    cur.execute('SELECT s.domain,st.type_name FROM servers s JOIN serv_matrix sm ON s.id=sm.servers_id JOIN servers_types st ON sm.servers_types_id=st.id;')
     res=cur.fetchall()
     for row in res:
         serv_list.append({'server_name':row[0],'service':row[1]})
@@ -130,8 +132,9 @@ try:
 except:
     syslog.syslog("Cannot connect to Zabbix with API call")
 # Get Host ID for current host
-hostid=zapi.host.get({'search':{'host':Hostname}})[0]['hostid']
+hostid=zapi.host.get({'search':{'host':Hostname}})
 if hostid:
+    hostid=hostid[0]['hostid']
     # Search template IDs
     templateids=[]
     for one in Template_list:
