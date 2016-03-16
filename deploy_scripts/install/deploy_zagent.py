@@ -20,7 +20,8 @@ zapi_host='priv.zabbix.itlogic.pro'
 zapi_user='Admin'
 zapi_password='Questions' 
 Hostname=os.uname()[1]
-LogFile='/var/log/zabbix/zabbix_agentd.log'
+LogFile='/var/log/zabbix/zabbix_agentd.log' 
+Include_dir_userparam='/etc/zabbix/zabbix_agentd.d/'
 Zserver=zapi_host #Fix this in case of separate frontend and zabbix server
 ZserverActive=Zserver
 serv_list=[]
@@ -65,6 +66,8 @@ elif dist=='debian':
             syslog.syslog("Sorry, package installation failed [{err}]".format(err=str(arg)))
     # Defune logfile location
     LogFile="/var/log/zabbix-agent/zabbix_agentd.log"
+    #Define Zabbix agent UserParameter directory
+    Include_dir_userparam='/etc/zabbix/zabbix_agentd.conf.d/'
 #connect to database for getting metadata for current host
 try:
     import MySQLdb
@@ -108,14 +111,14 @@ Hostname=%s
 ############ ADVANCED PARAMETERS #################
 # Timeout=3
 # AllowRoot=0
-Include=/etc/zabbix/zabbix_agentd.d/
+Include=%s /etc/zabbix/zabbix_agentd.d/
 ####### USER-DEFINED MONITORED PARAMETERS #######
 # UnsafeUserParameters=0
 # UserParameter=
 ####### LOADABLE MODULES ########################
 # LoadModule=
 HostMetadata=%s
-""" % (LogFile,Zserver,ZserverActive,Hostname,HostMetadata)
+""" % (LogFile,Zserver,ZserverActive,Hostname,Include_dir_userparam,HostMetadata)
 # Write configuration to tempory file location for comparison
 syslog.syslog('Generated conf and store it temporary for comartison')
 fh = open('/tmp/zabbix_agentd.conf','w')
