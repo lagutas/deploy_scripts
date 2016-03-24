@@ -18,8 +18,8 @@ unless($check_nginx=~/nginx/)
     my $command='sudo aptitude -y install nginx';
     my $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
     
-    $command='sudo echo "include /etc/nginx/conf.d/*.conf;" >> /etc/nginx/nginx.conf';
-    $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
+    my $command='sudo echo "include /etc/nginx/conf.d/*.conf;" >> /etc/nginx/nginx.conf';
+    my $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
 }
 else
 {
@@ -40,8 +40,8 @@ foreach my $conf (@nginx_conf)
 closedir $nginx_conf;
 
 if($check>0) {
-    $command='sudo /etc/init.d/nginx reload';
-    $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
+    my $command='sudo /etc/init.d/nginx reload';
+    my $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
 }
 
 
