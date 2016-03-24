@@ -15,15 +15,15 @@ $tools->logprint("info","check nginx $check_nginx");
 
 unless($check_nginx=~/nginx/)
 {
-	my $command='sudo aptitude -y install nginx';
-	my $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
-	
-	$command='sudo echo "include /etc/nginx/conf.d/*.conf;" >> /etc/nginx/nginx.conf';
-	$exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
+    my $command='sudo aptitude -y install nginx';
+    my $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
+    
+    $command='sudo echo "include /etc/nginx/conf.d/*.conf;" >> /etc/nginx/nginx.conf';
+    $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
 }
 else
 {
-	$tools->logprint("info","nginx is already installed");
+    $tools->logprint("info","nginx is already installed");
 }
 
 opendir(my $nginx_conf,$path.'/etc/nginx/conf.d/') || $tools -> logprint("error","не удалось открыть каталог $path/etc/nginx/conf.d");
@@ -40,8 +40,8 @@ foreach my $conf (@nginx_conf)
 closedir $nginx_conf;
 
 if($check>0) {
-	$command='sudo /etc/init.d/nginx reload';
-	$exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
+    $command='sudo /etc/init.d/nginx reload';
+    $exec_command=`$path/install/30_exec_command.pl '$command' $path`; if($exec_command ne undef) {  die $exec_command."\n"; }
 }
 
 
