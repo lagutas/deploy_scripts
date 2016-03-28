@@ -16,13 +16,12 @@ if(!defined($ctid))
 
 
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logsize         =>      '1Mb',
-                            log_num         =>      4);
 
+#my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile         =>      'Syslog');
 while (1) 
 {
-    $tools->logprint("25_vz_start","check vz $ctid");
+    $tools->logprint("info","check vz $ctid");
     my @vz_list=split("\n",`vzlist $ctid 2>/dev/null`);
     my $ctid_ret=0;
     if (defined($vz_list[1]))
@@ -31,12 +30,12 @@ while (1)
         $ctid_ret=~s/^\s+\d+\s+.+\s(\w+)\s+.+/$1/;
     }
 
-    $tools->logprint("25_vz_start","!$ctid - $ctid_ret!");
+    $tools->logprint("info","!$ctid - $ctid_ret!");
 
-    if($ctid_ret eq "stopped")
+    if($ctid_ret=~/stopped/)
     {
         my $vz_start="vzctl start $ctid  1>/dev/null 2> $path/25_vz_start.log";
-        $tools->logprint("25_vz_start","$vz_start");
+        $tools->logprint("info","$vz_start");
         `$vz_start`;
         open(my $vz_start,"<","$path/25_vz_start.log");
         while (<$vz_start>) 
@@ -44,7 +43,7 @@ while (1)
             chomp;
             if($_=~/failed/||$_=~/error/||$_=~/ERROR/)
             {
-                $tools->logprint("25_vz_start","$_");
+                $tools->logprint("info","$_");
                 print "$_";
             }
         }
@@ -52,7 +51,7 @@ while (1)
     }
     else
     {
-        $tools->logprint("25_vz_start","$ctid already started");
+        $tools->logprint("info","$ctid already started");
         exit;
     }
     sleep(1);

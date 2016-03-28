@@ -13,26 +13,40 @@ my $src_file = shift;
 my $dst_file = shift;
 my $path = shift;
 
+my $result=0;
+
 my $my_dir = getcwd;
-my $tools=Logic::Tools->new(logfile         =>      $my_dir.'/'.$path.'/deploy.log',
-                            logsize         =>      '1Mb',
-                            log_num         =>      4);
+#my $tools=Logic::Tools->new(logfile => $my_dir.'/'.$path.'/deploy.log');
+my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 my $dst_path=$dst_file;
+
+$tools->logprint("info","20_install_project $src_file -> $dst_file");
 
 $dst_path=~s/^(.+)\/.+$/$1/;
 
 if (! -d $dst_path)
-{
-  my $dirs = eval { mkpath($dst_path) };
-  print "Failed to create $dst_path: $@\n" unless $dirs;
+{  
+  $tools->logprint("info","dir not created, create it");
+  eval 
+  {
+    mkpath($dst_path)
+  };
+  if ($@) 
+  {
+    $tools->logprint("info","Failed to create $dst_path: $@\n");
+    print -1;
+    exit;
+  }
 }
 
 #get diff between config files
 unless ( -e "$dst_file" ) 
 {
-	$tools->logprint("20_install_projects","$dst_file not exist, copy new file");
-    copy $src_file,$dst_file or print "ERROR copying file $src_file -> $dst_file";
+  $tools->logprint("info","$dst_file not exist, copy new file");
+  copy $src_file,$dst_file or eval { $tools->logprint("error","error $src_file -> $dst_file $!"); print -1;};
+  print 1;
+  exit;
 }
 
 
@@ -43,7 +57,12 @@ my $diff = diff $src_file, $dst_file;
 if($diff ne undef)
 {
     unlink($dst_file);
-    copy $src_file,$dst_file or print "ERROR copying file $src_file -> $dst_file";
-    $tools->logprint("20_install_projects","update $dst_file");
+    copy $src_file,$dst_file or eval { $tools->logprint("error","error $src_file -> $dst_file $!"); print -1;};
+    $tools->logprint("info","update $dst_file");
+    print 1;
 }
-
+else
+{
+    $tools->logprint("info","20_install_project not need $src_file -> $dst_file");
+    print 0;
+}

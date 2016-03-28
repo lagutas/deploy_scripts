@@ -24,22 +24,23 @@ $query{'get_linux_users'} = <<EOQ;
 SELECT
     u.login, u.secret
 FROM
-    $db.access_matrix am
-    JOIN $db.servers s ON s.id = am.servers_id
-    JOIN $db.users u ON u.id = am.users_id
-WHERE
-    s.domain = ?;
+    $db.service_access_matrix sam
+    JOIN $db.services s ON s.id = sam.services_id
+    JOIN $db.users u ON u.id = sam.users_id
+	JOIN $db.servers ser ON ser.id = sam.servers_id
+	WHERE ser.domain = ?;
 EOQ
 
 $query{'check_user_exist'} = <<EOQ;
 SELECT
     count(*) as num
 FROM
-    $db.access_matrix am
-    JOIN $db.servers s ON s.id = am.servers_id
-    JOIN $db.users u ON u.id = am.users_id
-WHERE
-    s.domain = ? AND
+    $db.service_access_matrix sam
+    JOIN $db.services s ON s.id = sam.services_id
+    JOIN $db.users u ON u.id = sam.users_id
+	JOIN $db.servers ser ON ser.id = sam.servers_id
+	WHERE ser.domain = ?
+AND
     u.login =?;
 EOQ
 

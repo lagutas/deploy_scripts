@@ -8,23 +8,23 @@ my $file = shift;
 my $keyword = shift;
 my $add_string = shift;
 
-open(file_r,"<",$file);
-open(file_wr,">",$file."_tmp");
+open(my $file_r,"<",$file);
+open(my $file_wr,">",$file."_tmp");
 
-while(<file_r>)
+while(<$file_r>)
 {
     if($_=~/###\sEND\sINIT\sINFO/)
     {
-        print file_wr $_."#delpoy already modified\n";
+        print $file_wr $_."#delpoy already modified\n";
     }
     elsif($_=~$keyword)
     {
-        print file_wr $_;
+        print $file_wr $_;
         
         foreach(split(/;/,$add_string))
         {
             #print "-- $_\n";
-            print file_wr "$_\n";
+            print $file_wr "$_\n";
         }
     
     }
@@ -34,12 +34,12 @@ while(<file_r>)
     }
     else
     {
-        print file_wr $_;
+        print $file_wr $_;
     }
 }
 
-close(file_r);
-close(file_wr);
+close($file_r);
+close($file_wr);
 
 copy $file."_tmp",$file or print "ERROR copying file";
 
