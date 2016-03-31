@@ -38,7 +38,7 @@ $query{'get_task_id'} = "SELECT id FROM tasks WHERE task_name='monast_cfg';";
 
 $query{'add_monast_users'} = "INSERT INTO monast_users VALUES (?,?,'originate,queue,command,spy',?);";
 
-$query{'create_monast_conf'} = "insert into task_queue values(NULL,?,'now',Now(),?);";
+$query{'create_monast_conf'} = "insert into task_queue values(NULL,?,'now',Now());";
 
 $query{'del_monast_users'} = "delete from monast_users";
 
@@ -101,7 +101,7 @@ foreach my $key (keys %user_hash)
 }
 
 my $sth=$dbh->prepare($query{'create_monast_conf'});
-my $q = $sth->execute($task_id,$server_id) or die "Error: query $query{'create_monast_conf'} failed: $!";
+my $q = $sth->execute($task_id) or die "Error: query $query{'create_monast_conf'} failed: $!";
 
 $sth->finish();
 $dbh->disconnect();
