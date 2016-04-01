@@ -22,14 +22,14 @@ my $db2=$tools->read_config( 'create_monast_users', 'db');
 my %query;
 $query{'get_linux_users'} = <<EOQ;
 SELECT
-    u.login, u.secret, sr.rules
+    u.login, u.secret
 FROM
-    $db1.access_matrix am
-    JOIN $db1.servers s ON s.id = am.servers_id
-    JOIN $db1.users u ON u.id = am.users_id
-    JOIN $db1.sudo_rules sr ON sr.id = am.sudo_rules_id
+    $db1.service_access_matrix sam
+    JOIN $db1.services s ON s.id = sam.services_id
+    JOIN $db1.users u ON u.id = sam.users_id
+    JOIN $db1.servers ser ON ser.id = sam.servers_id
 WHERE
-    s.domain = ?;
+    ser.domain= ?;
 EOQ
 
 $query{'get_server_id'} = "SELECT id FROM monast_servers;";
@@ -38,7 +38,9 @@ $query{'get_task_id'} = "SELECT id FROM tasks WHERE task_name='monast_cfg';";
 
 $query{'add_monast_users'} = "INSERT INTO monast_users VALUES (?,?,'originate,queue,command,spy',?);";
 
-$query{'create_monast_conf'} = "insert into task_queue values(NULL,?,'now',Now(),?);";
+$query{'create_monast_conf'} = "insert into task_queue values(NULL,?,'now',Now());";
+
+$query{'del_monast_users'} = "delete from monast_users";
 
 my $dbh;
 eval 
@@ -76,6 +78,10 @@ if ($@)
 }
 $dbh->{mysql_auto_reconnect} = 1;
 
+my $sth=$dbh->prepare($query{'del_monast_users'});
+$sth->execute() or die "Error: query $query{'del_monast_users'} failed: $!";
+$sth->finish();
+
 my $sth=$dbh->prepare($query{'get_server_id'});
 $sth->execute() or die "Error: query $query{'get_server_id'} failed: $!";
 my $ref=$sth->fetchrow_arrayref();
@@ -95,7 +101,7 @@ foreach my $key (keys %user_hash)
 }
 
 my $sth=$dbh->prepare($query{'create_monast_conf'});
-my $q = $sth->execute($task_id,$server_id) or die "Error: query $query{'create_monast_conf'} failed: $!";
+my $q = $sth->execute($task_id) or die "Error: query $query{'create_monast_conf'} failed: $!";
 
 $sth->finish();
 $dbh->disconnect();
