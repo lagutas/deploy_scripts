@@ -106,7 +106,7 @@ foreach(split("\n"),`sudo cat /etc/passwd`)
 
         if($check_user_exist_ref->{'num'}==0)
         {
-        	my $command="var=\$(sudo userdel $user 2>&1); if [ -z "\$var" ]; then echo "1"; else echo "0"; fi;"
+        	my $command="var=\$\(sudo userdel $user 2>\&1\)\; if \[ -z \"\$var\" \]\; then echo \"1\"\; else echo \"0\"\; fi\;";
             my $result=`$command`;
             if($result==1)
             {
