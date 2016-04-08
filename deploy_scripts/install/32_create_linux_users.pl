@@ -106,7 +106,7 @@ foreach(split("\n"),`sudo cat /etc/passwd`)
 
         if($check_user_exist_ref->{'num'}==0)
         {
-            my $result=`sudo userdel $user; echo "1"`;
+            my $result=`var=$(sudo userdel lagutas 2>&1); if [ -z "$var" ]; then echo "1"; else echo "0"; fi;`;
             if($result==1)
             {
                 $tools->logprint("info","user $user has been deleted");
