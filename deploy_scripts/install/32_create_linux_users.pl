@@ -55,7 +55,7 @@ if ($@)
 }
 $dbh->{mysql_auto_reconnect} = 1;
 
-chomp(my $hostname=`sudo hostname`);
+chomp(my $hostname=`sudo hostname -f`);
 
 $tools->logprint("info","hostname - $hostname");
 
@@ -106,7 +106,8 @@ foreach(split("\n"),`sudo cat /etc/passwd`)
 
         if($check_user_exist_ref->{'num'}==0)
         {
-            my $result=`sudo userdel $user; echo "1"`;
+        	my $command="var=\$\(sudo userdel $user 2>\&1\)\; if \[ -z \"\$var\" \]\; then echo \"1\"\; else echo \"0\"\; fi\;";
+            my $result=`$command`;
             if($result==1)
             {
                 $tools->logprint("info","user $user has been deleted");

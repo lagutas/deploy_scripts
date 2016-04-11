@@ -53,7 +53,7 @@ if ($@)
 }
 $dbh->{mysql_auto_reconnect} = 1;
 
-chomp(my $hostname=`sudo hostname`);
+chomp(my $hostname=`sudo hostname -f`);
 $tools->logprint("info","hostname - $hostname");
 
 my $sth=$dbh->prepare($query{'get_linux_users'});
