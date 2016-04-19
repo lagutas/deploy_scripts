@@ -71,7 +71,11 @@ foreach(@test_num)
     {
         chomp;
         $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-        if($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/||$_=~/failed/||$_=~/syntax\serror/||$_=~/Invalid/)
+        if($_=~/failed\:\sUnknown\sMySQL\sserver\shost/)
+        {
+            $tools->logprint("info","usually test mysql problem");
+        }
+        elsif($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/||$_=~/failed/||$_=~/syntax\serror/||$_=~/Invalid/)
         {
             #print $_."\n";
             $tools->logprint("info","unit test [$script_name]: $test_name - $_");
@@ -140,7 +144,11 @@ if(defined($specific_test_dir))
         {
             chomp;
             $tools->logprint("info","unit test [$script_name]: $test_name - $_");
-            if($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/||$_=~/failed/||$_=~/syntax\serror/||$_=~/Invalid/)
+            if($_=~/failed\:\sUnknown\sMySQL\sserver\shost/)
+            {
+                $tools->logprint("info","usually test mysql problem");
+            }
+            elsif($_=~/not\sok/||$_=~/Can\'t\slocate/||$_=~/error/||$_=~/FAILED/||$_=~/failed/||$_=~/syntax\serror/||$_=~/Invalid/)
             {
                 print $_."\n";
                 $tools->logprint("info","unit test [$script_name]: $test_name - $_");

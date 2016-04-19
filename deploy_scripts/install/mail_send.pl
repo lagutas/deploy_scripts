@@ -24,7 +24,7 @@ my $tools=Logic::Tools->new(logfile => 'Syslog');
 
 $tools->logprint("info","send mail: $emails: [$theme] $message");
 
-chomp(my $hostname=`hostname`);
+chomp(my $hostname=`hostname -f`);
 
 chomp(my $check_mutt=`whereis -b mutt | grep ": /" | wc -l`);
     
