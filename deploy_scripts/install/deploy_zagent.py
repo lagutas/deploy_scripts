@@ -53,7 +53,7 @@ elif dist=='debian':
     pkg=cache[pkg_name]
     pkg2=cache[mysqldb_mod_py]
     if pkg.is_installed and pkg2.is_installed:
-        syslog.syslog("{pkg_name} already installed".format(pkg_name=pkg_name)
+        syslog.syslog("{pkg_name} already installed".format(pkg_name=pkg_name))
     else:
         syslog.syslog('Zabbix agent is not installed yet, insalling...')
         pkg.mark_install()
@@ -63,7 +63,7 @@ elif dist=='debian':
             pkg2.mark_install()
         try:
             cache.commit()
-            syslog.syslog(")
+            syslog.syslog("Installed")
         except Exception, arg:
             syslog.syslog("Sorry, package installation failed [{err}]".format(err=str(arg)))
     # Defune logfile location
