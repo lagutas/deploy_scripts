@@ -149,9 +149,11 @@ if hostid:
     templateids=[]
     for one in Template_list:
         tmplid=zapi.template.get({'search':{'host':one}})
-        try:
-            tmplid=tmplid[0]['templateid']
-            templateids.append(tmplid)
+        try: # just check that template exist
+            tmplid=tmplid[0]['templateid'] # select it from JSON output
+            tmpldic['templateid']= tmplid # store temporary it in dictionary
+            templateids.append(tmpldic) # add it to template list
+            tmpldic = {} # clean dic otherwise it won't be updated
         except:
             syslog.syslog('Template is not found, let\'s create empty one with necessary name')
             newtmpl=zapi.template.create({"host":"Template "+one,"groups":{"groupid":1}})
