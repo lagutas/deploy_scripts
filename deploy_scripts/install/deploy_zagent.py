@@ -148,8 +148,13 @@ if hostid:
     # Search template IDs
     templateids=[]
     for one in Template_list:
-        tmplid=zapi.template.get({'search':{'host':one}})[0]['templateid']
-        templateids.append(tmplid)
+        tmplid=zapi.template.get({'search':{'host':one}})
+        try:
+            tmplid=tmplid[0]['templateid']
+            templateids.append(tmplid)
+        except:
+            syslog.syslog('Template is not found, let\'s create empty one with necessary name')
+            newtmpl=zapi.template.create({"host":"Template "+one,"groups":{"groupid":1}})
     # Get current templates
     NeedTmplUpdate=0 
     get_templates=zapi.template.get({'hostids':hostid})
