@@ -154,7 +154,6 @@ if hostid:
     for one in Template_list:
         tmplid=zapi.template.get({'search':{'host':service_dict[one]}})
         for i in tmplid:
-            if i:
                 try: # just check that template exist
                     tmpid=i[0]['templateid'] # select it from JSON output
                     tmpdic['templateid']= tmpid # store temporary it in dictionary
