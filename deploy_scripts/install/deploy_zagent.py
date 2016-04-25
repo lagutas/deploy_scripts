@@ -15,6 +15,10 @@ itldb_host=config.get('create_linux_users','db_host')
 itldb=config.get('create_linux_users','db')
 itldb_user=config.get('create_linux_users','db_user')
 itldb_password=config.get('create_linux_users','db_password')
+service_dict = {'linux':'Template OS Linux', 'mysql':'Template App MySQL','asterisk':'Template App Asterisk'
+                'logic_crm':'Template App Logic CRM','centos_repo':'Template App Centos Repo',
+                'test_servers':'Template test servers','dokuwiki':'Template App Dokuwiki'
+                'sipbalanser':'Template App Sipbalanser'}
 # Zabbix API configuration | настройки подключения к Zabbix API
 zapi_host='priv.zabbix.itlogic.pro'
 zapi_user='Admin'
@@ -148,22 +152,24 @@ if hostid:
     # Search template IDs
     templateids=[]
     for one in Template_list:
-        tmplid=zapi.template.get({'search':{'host':one}})
-        try: # just check that template exist
-            tmplid=tmplid[0]['templateid'] # select it from JSON output
-            tmpldic['templateid']= tmplid # store temporary it in dictionary
-            templateids.append(tmpldic) # add it to template list
-            tmpldic = {} # clean dic otherwise it won't be updated
-        except:
-            syslog.syslog('Template is not found, let\'s create empty one with necessary name')
-            newtmpl=zapi.template.create({"host":"Template "+one,"groups":{"groupid":1}})
+        tmplid=zapi.template.get({'search':{'host':service_dict[one]}})
+        for i in tmplid:
+            if i:
+                try: # just check that template exist
+                    tmpid=i[0]['templateid'] # select it from JSON output
+                    tmpdic['templateid']= tmpid # store temporary it in dictionary
+                    templateids.append(tmpldic) # add it to template list
+                    tmpldic = {} # clean dic otherwise it won't be updated
+                except:
+                    syslog.syslog('Template is not found, let\'s create empty one with necessary name')
+                    newtmpl=zapi.template.create({"host":service_dict[one],"groups":{"groupid":1}})
     # Get current templates
     NeedTmplUpdate=0 
     get_templates=zapi.template.get({'hostids':hostid})
     for i in get_templates:
-        if i['templateid'] not in templateids:
-            templateids.append(i['templateid'])
-            NeedTmplUpdate=1
+        for j in templateids:
+            if i['templateid'] not in j['templateid']:
+                NeedTmplUpdate=1
     # If there is new templates to apply, then we'll update the host
     if NeedTmplUpdate:
         syslog.syslog('Adding new templates to host')
