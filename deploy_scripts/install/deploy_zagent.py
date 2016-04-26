@@ -166,7 +166,7 @@ if hostid:
     NeedTmplUpdate=0 
     get_htemplates=zapi.template.get({'hostids':hostid})
     if get_htemplates:
-        for i in get_templates:
+        for i in get_htemplates:
             for j in templateids:
                 if i['templateid'] not in j['templateid']:
                     NeedTmplUpdate=1
