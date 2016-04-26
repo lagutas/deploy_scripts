@@ -18,7 +18,7 @@ itldb_password=config.get('create_linux_users','db_password')
 service_dict = {'linux':'Template OS Linux', 'mysql':'Template App MySQL','asterisk':'Template App Asterisk',\
                 'logic_crm':'Template App Logic CRM','centos_repo':'Template App Centos Repo',\
                 'test_servers':'Template test servers','dokuwiki':'Template App Dokuwiki',\
-                'sipbalanser':'Template App Sipbalanser'}
+                'sipbalanser':'Template App Sipbalanser','openvz-hn':'Template App OpenVZ'}
 # Zabbix API configuration | настройки подключения к Zabbix API
 zapi_host='priv.zabbix.itlogic.pro'
 zapi_user='Admin'
