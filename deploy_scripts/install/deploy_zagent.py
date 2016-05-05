@@ -80,7 +80,10 @@ try:
     con=MySQLdb.connect(host=itldb_host, user=itldb_user, passwd=itldb_password, db=itldb)
     cur=con.cursor()
     cur.execute('SET NAMES `utf8`')
-    cur.execute('SELECT s.domain,st.type_name FROM servers s JOIN serv_matrix sm ON s.id=sm.servers_id JOIN servers_types st ON sm.servers_types_id=st.id;')
+    cur.execute('SELECT s.domain,st.type_name \
+                        FROM servers s \
+                        JOIN serv_matrix sm ON s.id=sm.servers_id \
+                        JOIN servers_types st ON sm.servers_types_id=st.id;')
     res=cur.fetchall()
     for row in res:
         serv_list.append({'server_name':row[0],'service':row[1]})
@@ -153,15 +156,15 @@ if hostid:
     templateids=[]
     for one in Template_list:
         tmplget=zapi.template.get({'search':{'host':service_dict[one]}})
-        for i in tmplget:
-                try: # just check that template exist
-                    tmpldic = {} # clean dic otherwise it won't be updated
-                    tmpid=i['templateid'] # select it from JSON output
-                    tmpldic['templateid']= tmpid # store temporary it in dictionary
-                    templateids.append(tmpldic) # add it to template list
-                except:
-                    syslog.syslog('Template is not found, let\'s create empty one with necessary name')
-                    newtmpl=zapi.template.create({"host":service_dict[one],"groups":{"groupid":1}})
+        if not tmplget:
+            syslog.syslog('Template is not found, let\'s create empty one with necessary name')
+            newtmpl = zapi.template.create({"host": service_dict[one], "groups": {"groupid": 1}})
+        else:
+            for i in tmplget:
+                tmpldic = {} # clean dic otherwise it won't be updated
+                tmpid=i['templateid'] # select it from JSON output
+                tmpldic['templateid']= tmpid # store temporary it in dictionary
+                templateids.append(tmpldic) # add it to template list
     # Get current templates
     NeedTmplUpdate=0 
     get_htemplates=zapi.template.get({'hostids':hostid})
