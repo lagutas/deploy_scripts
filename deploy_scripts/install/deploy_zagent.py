@@ -155,7 +155,11 @@ if hostid:
     # Search template IDs
     templateids=[]
     for one in Template_list:
-        tmplget=zapi.template.get({'search':{'host':service_dict[one]}})
+        try:
+            tmplget=zapi.template.get({'search':{'host':service_dict[one]}})
+        except KeyError:
+            syslog.syslog('Template with name %s is not exsit' % service_dict[one])
+        tmplget = zapi.template.get({'search': {'host': one}})
         if not tmplget:
             syslog.syslog('Template is not found, let\'s create empty one with necessary name')
             newtmpl = zapi.template.create({"host": service_dict[one], "groups": {"groupid": 1}})
