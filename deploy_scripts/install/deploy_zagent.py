@@ -18,7 +18,7 @@ itldb_password=config.get('create_linux_users','db_password')
 service_dict = {'linux':'Template OS Linux', 'mysql':'Template App MySQL','asterisk':'Template App Asterisk',\
                 'logic_crm':'Template App Logic CRM','centos_repo':'Template App Centos Repo',\
                 'test_servers':'Template test servers','dokuwiki':'Template App Dokuwiki',\
-                'sipbalanser':'Template App Sipbalanser','openvz-hn':'Template App OpenVZ'}
+                'sipbalancer':'Template App Sipbalanser','openvz-hn':'Template App OpenVZ'}
 # Zabbix API configuration | настройки подключения к Zabbix API
 zapi_host='priv.zabbix.itlogic.pro'
 zapi_user='Admin'
@@ -155,7 +155,11 @@ if hostid:
     # Search template IDs
     templateids=[]
     for one in Template_list:
-        tmplget=zapi.template.get({'search':{'host':service_dict[one]}})
+        try:
+            tmplget=zapi.template.get({'search':{'host':service_dict[one]}})
+        except KeyError:
+            syslog.syslog('Template with name %s is not exsit' % service_dict[one])
+        tmplget = zapi.template.get({'search': {'host': one}})
         if not tmplget:
             syslog.syslog('Template is not found, let\'s create empty one with necessary name')
             newtmpl = zapi.template.create({"host": service_dict[one], "groups": {"groupid": 1}})
