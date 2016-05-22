@@ -90,10 +90,10 @@ try:
 except MySQLdb.Error:
     syslog.syslog(syslog.LOG_ERR, con.error())
 # Parse database output
-for i in serv_list:
-    if i['server_name'].split('.')[0]==Hostname:
-        HostMetadata="linux %s" % i['service']
-        Template_list.append(i['service'])
+for server in serv_list:
+    if server['server_name'].split('.')[0]==Hostname:
+        HostMetadata="linux %s" % server['service']
+        Template_list.append(server['service'])
     else:
         HostMetadata="linux"
 #generate config for zabbix agent
