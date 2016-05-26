@@ -15,10 +15,10 @@ itldb_host=config.get('create_linux_users','db_host')
 itldb=config.get('create_linux_users','db')
 itldb_user=config.get('create_linux_users','db_user')
 itldb_password=config.get('create_linux_users','db_password')
-service_dict = {'linux':'Template OS Linux', 'mysql':'Template App MySQL','asterisk':'Template App Asterisk',\
-                'logic_crm':'Template App Logic CRM','centos_repo':'Template App Centos Repo',\
-                'test_servers':'Template test servers','dokuwiki':'Template App Dokuwiki',\
-                'sipbalancer':'Template App Sipbalanser','openvz-hn':'Template App OpenVZ'}
+service_dict = {'linux':'Template OS Linux', 'MySQL':'Template App MySQL','Asterisk':'Template App Asterisk',\
+                'Logic_CRM':'Template App Logic CRM','Centos_repo':'Template App Centos Repo',\
+                'test_servers':'Template test servers','DokuWiki':'Template App Dokuwiki',\
+                'Sipbalancer':'Template App Sipbalanser','OpenVZ':'Template App OpenVZ','OpenVZ_centos':'Template App OpenVZ centos'}
 # Zabbix API configuration | настройки подключения к Zabbix API
 zapi_host='priv.zabbix.itlogic.pro'
 zapi_user='Admin'
@@ -90,10 +90,10 @@ try:
 except MySQLdb.Error:
     syslog.syslog(syslog.LOG_ERR, con.error())
 # Parse database output
-for i in serv_list:
-    if i['server_name'].split('.')[0]==Hostname:
-        HostMetadata="linux %s" % i['service']
-        Template_list.append(i['service'])
+for server in serv_list:
+    if server['server_name'].split('.')[0]==Hostname:
+        HostMetadata="linux %s" % server['service']
+        Template_list.append(server['service'])
     else:
         HostMetadata="linux"
 #generate config for zabbix agent
