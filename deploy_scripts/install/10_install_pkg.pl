@@ -132,7 +132,8 @@ if ($pm eq "yum")
         `sudo yum -y install MySQL-python 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log`
     }
 
-    
+	$tools->logprint("info","install openssh-clients");
+    `sudo yum -y install openssh-clients`;     
     
 }
 
