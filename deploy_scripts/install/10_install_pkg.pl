@@ -242,4 +242,15 @@ if ($pm eq "apt-get")
         $tools->logprint("info","sudo apt-get -y install python-mysqldb 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install python-mysqldb 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log`;
     }
+
+    #check Array::Utils
+    eval { require Array::Utils };
+    my $test_kwalitee= $@ ? 'No' : 'Yes';
+
+    #install package quiet
+    if($test_kwalitee eq "No")
+    {
+        $tools->logprint("info","sudo apt-get -y install libarray-utils-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
+        `sudo apt-get -y install libarray-utils-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    }
 }
