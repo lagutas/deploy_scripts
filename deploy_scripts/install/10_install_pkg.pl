@@ -253,4 +253,8 @@ if ($pm eq "apt-get")
         $tools->logprint("info","sudo apt-get -y install libarray-utils-perl 1>$path/10_install_pkg.log 2>$path/10_install_pkg.log");
         `sudo apt-get -y install libarray-utils-perl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
     }
+
+    $tools->logprint("info","sudo aptitude -y install curl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log");
+    `sudo aptitude -y install curl 1>>$path/10_install_pkg.log 2>>$path/10_install_pkg.log`; 
+    
 }
