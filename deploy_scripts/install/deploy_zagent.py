@@ -29,6 +29,7 @@ Include_dir_userparam='/etc/zabbix/zabbix_agentd.d/'
 Zserver=zapi_host #Fix this in case of separate frontend and zabbix server
 ZserverActive=Zserver
 serv_list=[]
+proj_list=[]
 Template_list=['linux'] # There is default template linux, If there 
 HostMetadata = "" # Define variable for store metadata of host
 #check which OS is used
@@ -87,6 +88,14 @@ try:
     res=cur.fetchall()
     for row in res:
         serv_list.append({'server_name':row[0],'service':row[1]})
+    # get project/server matrix
+    cur.execute('SELECT s.domain,p.project_name \
+                 FROM servers s \
+                 JOIN project_matrix pm ON s.id=pm.servers_id \
+                 JOIN projects p ON p.id=pm.projects_id;')
+    proj=cur.fetchall()
+    for row in proj:
+        proj_list.append({'server_name':row[0],'project':row[1]})
 except MySQLdb.Error:
     syslog.syslog(syslog.LOG_ERR, con.error())
 # Parse database output
@@ -96,6 +105,10 @@ for server in serv_list:
         Template_list.append(server['service'])
     else:
         HostMetadata="linux"
+for srv in proj_list:
+    if srv['server_name'].split('.')[0]==Hostname:
+        hostgroup.append(srv['project'])   
+
 #generate config for zabbix agent
 conf="""
 ############ GENERAL PARAMETERS #################
@@ -150,7 +163,7 @@ except:
     syslog.syslog("Cannot connect to Zabbix with API call")
 # Get Host ID for current host
 hostid=zapi.host.get({'search':{'host':Hostname}})
-if hostid:
+if hostid: #check if we get any data from call
     hostid=hostid[0]['hostid']
     # Search template IDs
     templateids=[]
